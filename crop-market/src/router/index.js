@@ -29,7 +29,7 @@ const routes = [
         path: '/sign-up',
         name: 'Sign-Up',
         component: () => import('../views/Signup.vue')
-    },
+    }/*
     {
         path: '/dashboard',
         name: 'Dashboard',
@@ -44,7 +44,7 @@ const routes = [
         path: '/enter-expenses',
         name: 'Enter-Expenses',
         component: () => import('../views/EnterExpenses.vue')
-    }
+    }*/
 ];
 
 const router = new VueRouter({
