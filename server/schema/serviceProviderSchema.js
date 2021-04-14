@@ -21,16 +21,13 @@ const serviceProviderSchema = new mongoose.Schema({
         ref: 'Review'
     }],
     description: {
-        type: String,
-        required: [true, 'Description is required']
+        type: String
     },
     location: {
-        type: String,
-        required: [true, 'Location is required']
+        type: String
     },
     contact: {
-        type: String,
-        required: [true, 'Contact is required']
+        type: String
     }
 });
 

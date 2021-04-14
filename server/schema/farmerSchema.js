@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const farmerSchema = new mongoose.Schema({
-    provider_id: {
+    farmer_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: [true, 'Farmer ID is required']
     },
@@ -21,16 +21,13 @@ const farmerSchema = new mongoose.Schema({
         ref: 'Review'
     }],
     description: {
-        type: String,
-        required: [true, 'Description is required']
+        type: String
     },
     location: {
-        type: String,
-        required: [true, 'Location is required']
+        type: String
     },
     contact: {
-        type: String,
-        required: [true, 'Contact is required']
+        type: String
     }
 });
 

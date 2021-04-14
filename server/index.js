@@ -9,7 +9,11 @@ app.use(express.json());
 
 //import schemas here
 const userSchema = require('./schema/userSchema.js');
+const farmerSchema = require("./schema/farmerSchema.js");
+const serviceProviderSchema = require("./schema/serviceProviderSchema.js");
 const User = mongoose.model('user', userSchema, 'user');
+const Farmer = mongoose.model('farmer', farmerSchema, 'farmer');
+const ServiceProvider = mongoose.model('service_provider', serviceProviderSchema, 'service_provider');
 
 const connectionString = 'mongodb+srv://cropAdmin:theCropMarket@cluster0.gjru1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
@@ -61,22 +65,44 @@ app.post("/api/login", async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   const { email, password, type, name } = req.body;
+  let userId = mongoose.Types.ObjectId();
   let user = await connector.then(async () => {
     return new User({
       username: email,
       password: password,
       type: type,
       name: name,
-      user_id: mongoose.Types.ObjectId()
-    }).save()
+      user_id: userId
+    }).save();
   });
 
   if (!user) {
-    res.status((400).json({
+    res.status(400).json({
       response: 'User creation error',
     })
-  )}
+  }
   else {
+    let userType;
+    if (type == 'Farmer') {
+      userType = await connector.then(async () => {
+        return new Farmer({
+          farmer_id: userId,
+          name: name
+        }).save();
+      });
+    }
+    else if (type == 'Service Provider') {
+      userType = await connector.then(async () => {
+        return new ServiceProvider({
+          provider_id: userId,
+          name: name
+        }).save();
+      });
+    }
+
+    if (!userType) {
+      res.status(400).json({ response: "failure in creating user type"});
+    }
     res.status(200).json({ reponse: "success" });
   }
 });
