@@ -16,7 +16,7 @@ export default new Vuex.Store({
         async LogIn({ commit }, { email, password }) {
             axios
                 .post(
-                    'localhost:3000/api/login',
+                    'http://localhost:3000/api/login',
                     {
                         email: email,
                         password: password
@@ -32,26 +32,18 @@ export default new Vuex.Store({
                 });
         },
         async LogOut({ commit }) {
-            axios
-                .post(
-                    'https://us-central1-personal-budget-final.cloudfunctions.net/server/api/logout'
-                )
-                .then(() => {
-                    commit('removeUser');
-                    router.push('/');
-                })
-                .catch(() => {
-                    commit('removeUser');
-                    router.push('/');
-                });
+            commit('removeUser');
+            router.push('/');
         },
-        async SignUp({ commit }, { email, password }) {
+        async SignUp({ commit }, { email, password, type, name }) {
             axios
                 .post(
-                    'https://us-central1-personal-budget-final.cloudfunctions.net/server/api/signup',
+                    'http://localhost:3000/api/signup',
                     {
                         email: email,
-                        password: password
+                        password: password,
+                        type: type,
+                        name: name
                     }
                 )
                 .then(() => {

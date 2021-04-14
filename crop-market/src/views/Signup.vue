@@ -25,6 +25,22 @@
                     :type="'password'"
                     required
                 ></v-text-field>
+                <v-radio-group v-model="type">
+                    <v-radio
+                        label="Farmer"
+                        value="Farmer"
+                    ></v-radio>
+                    <v-radio
+                        label="Service Provider"
+                        value="Service Provider"
+                    ></v-radio>
+                </v-radio-group>
+                <v-text-field
+                    v-model="name"
+                    :rules="nameRules"
+                    label="Name"
+                    required
+                ></v-text-field>
                 <v-btn
                     :disabled="!isFormValid"
                     color="success"
@@ -55,7 +71,12 @@ export default {
                 'Password must contain at least 6 characters'
         ],
         passwordMatch: '',
-        passwordMatchRules: [v => !!v || 'Type your password again']
+        passwordMatchRules: [v => !!v || 'Type your password again'],
+        type: '',
+        name: '',
+        nameRules: [
+            v => !!v || 'Name is required'
+        ]
     }),
     computed: {
         passwordMatches() {
@@ -66,11 +87,13 @@ export default {
     name: 'Sign-Up',
     methods: {
         async submit() {
-            console.log(this.email);
             if (this.isFormValid) {
+                console.log(this.email, this.password, this.type, this.name);
                 this.$store.dispatch('SignUp', {
                     email: this.email,
-                    password: this.password
+                    password: this.password,
+                    type: this.type,
+                    name: this.name
                 });
             }
         }
