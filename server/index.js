@@ -30,34 +30,50 @@ app.use("/", express.static("public"));
 
 const connector = mongoose.connect(connectionString);
 
+app.get("/api/allusers", async (req, res) => {
+  let users = await connector.then(async () => {
+    return await User.find();
+  });
+
+  if (!users) {
+    res.status(400).json({ response: 'No users found' });
+  }
+  else {
+    res.status(200).json({ response: users});
+  }
+})
+
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
   let user = await connector.then(async () => {
-    return await User.findOne({ email, password });
+    return await User.findOne({ username: email, password: password });
   });
 
   if (!user) {
-    res.status((400).json({
+    res.status(400).json({
       response: 'User not found',
     })
-  )}
+  }
   else {
     res.status(200).json({ reponse: "success" });
   }
 });
 
 app.post("/api/signup", async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, type, name } = req.body;
   let user = await connector.then(async () => {
     return new User({
-      username,
-      password
+      username: email,
+      password: password,
+      type: type,
+      name: name,
+      user_id: mongoose.Types.ObjectId()
     }).save()
   });
 
   if (!user) {
     res.status((400).json({
-      response: 'User not found',
+      response: 'User creation error',
     })
   )}
   else {

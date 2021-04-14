@@ -16,7 +16,7 @@ export default new Vuex.Store({
         async LogIn({ commit }, { email, password }) {
             axios
                 .post(
-                    'https://us-central1-personal-budget-final.cloudfunctions.net/server/api/login',
+                    'localhost:3000/api/login',
                     {
                         email: email,
                         password: password
