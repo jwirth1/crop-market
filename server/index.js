@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
 const port = process.env.port || 3000;
 const app = express();
@@ -49,17 +50,28 @@ app.get("/api/allusers", async (req, res) => {
 
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
+
   let user = await connector.then(async () => {
-    return await User.findOne({ username: email, password: password });
+    return await User.findOne({ username: email });
   });
 
   if (!user) {
     res.status(400).json({
       response: 'User not found',
-    })
+    });
   }
   else {
-    res.status(200).json({ reponse: "success" });
+    if (bcrypt.compare(password, user.password)) {
+      res.status(200).json({ 
+        reponse: "success",
+        userId: user.userId
+       });
+    }
+    else {
+      res.status(400).json({
+        response: 'Validation failed'
+      });
+    }
   }
 });
 
@@ -88,7 +100,10 @@ else {
 });
 
 app.post("/api/signup", async (req, res) => {
-  const { email, password, type, name } = req.body;
+  let { email, password, type, name } = req.body;
+  let salt = bcrypt.genSaltSync(10);
+  password = bcrypt.hashSync(password, salt);
+
   let userId = mongoose.Types.ObjectId();
   let user = await connector.then(async () => {
     return new User({
@@ -127,7 +142,10 @@ app.post("/api/signup", async (req, res) => {
     if (!userType) {
       res.status(400).json({ response: "failure in creating user type"});
     }
-    res.status(200).json({ reponse: "success" });
+    res.status(200).json({ 
+      reponse: "success",
+      userId: userId
+    });
   }
 });
 
