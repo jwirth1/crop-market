@@ -34,8 +34,22 @@ const routes = [
         path: '/profile',
         name: 'Profile',
         component: () => import('../views/Profile.vue')
-    }
-    /*
+    }, 
+    {
+        path: '/listings',
+        name: 'Listings',
+        component:() => import('../views/Listings.vue')
+    },
+    {
+        path: '/farmers',
+        name: 'Farmers',
+        component:() => import('../views/Farmers.vue')
+    },
+    {
+        path: '/service-providers',
+        name: 'Service-Providers',
+        component:() => import('../views/ServiceProviders.vue')
+    },/*
     {
         path: '/dashboard',
         name: 'Dashboard',
