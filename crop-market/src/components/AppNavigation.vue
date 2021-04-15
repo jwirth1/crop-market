@@ -25,11 +25,26 @@
             ></v-app-bar-nav-icon>
             <v-spacer class="hidden-md-and-up"></v-spacer>
             <router-link to="/">
-                <v-toolbar-title to="/">{{ appTitle }}</v-toolbar-title>
+                <v-toolbar-title class="rounded" to="/">{{ appTitle }}</v-toolbar-title>
             </router-link>
             <v-spacer></v-spacer>
             <span v-if="isLoggedIn">
-                <v-btn text class="hidden-sm-and-down" to="/" @click="logout">
+                <v-btn text class="hidden-sm-and-down" to="/friends">
+                    FRIENDS
+                </v-btn>
+                <v-btn text class="hidden-sm-and-down" to="/listings">
+                    LISTINGS
+                </v-btn>
+                <v-btn text class="hidden-sm-and-down" to="/farmers">
+                    FARMERS
+                </v-btn>
+                <v-btn text class="hidden-sm-and-down" to="/service-providers">
+                    SERVICE PROVIDERS
+                </v-btn>
+                <v-btn text class="hidden-sm-and-down" to="/profile">
+                    PROFILE
+                </v-btn>
+                <v-btn text class="hidden-sm-and-down" id="logout" to="/" @click="logout">
                     LOG OUT
                 </v-btn>
             </span>
@@ -79,7 +94,18 @@ export default {
 
 <style scoped>
 .v-toolbar__title {
-    color: white;
-    text-decoration: none;
+    border: solid 2px transparent;
+    /*border-radius: 6px;*/
+    background-color: yellowgreen;
+    padding: 4px;
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-color: yellowgreen;
+}
+.hidden-sm-and-down {
+    margin: 5px;
+}
+#logout {
+    background-color: coral;
 }
 </style>
