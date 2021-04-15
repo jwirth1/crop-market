@@ -64,26 +64,26 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/farmers", async (req, res) => {
-    let users = await connector.then(async () => {
+    let farmers = await connector.then(async () => {
     return await Farmer.find();
   });
   if (!users) {
     res.status(400).json({ response: 'No users found' });
   }
   else {
-    res.status(200).json({ response: users});
+    res.status(200).json({ response: farmers});
   }
 });
 
 app.get("/api/service-providers", async (req, res) => {
-  let users = await connector.then(async () => {
+  let serviceProviders = await connector.then(async () => {
   return await ServiceProvider.find();
 });
 if (!users) {
   res.status(400).json({ response: 'No users found' });
 }
 else {
-  res.status(200).json({ response: users});
+  res.status(200).json({ response: serviceProviders});
 }
 });
 
