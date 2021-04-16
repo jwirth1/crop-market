@@ -159,7 +159,7 @@ app.post("/api/addDesire", async (req, res) => {
   /*let userId = req.body.userID;
   let desire = req.body.desire;
   let type = req.body.type;*/
-  let ( userId, type, desire ) = req.body;
+  let { userId, type, desire } = req.body;
   let desires, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
@@ -183,7 +183,7 @@ app.post("/api/addDesire", async (req, res) => {
 });
 
 app.post("/api/updateDescription", async (req, res) => {
-  let ( userId, type, description ) = req.body;
+  let { userId, type, description } = req.body;
   let description, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
@@ -203,7 +203,7 @@ app.post("/api/updateDescription", async (req, res) => {
 });
 
 app.post("/api/updateLocation", async (req, res) => {
-  let ( userId, type, location ) = req.body;
+  let { userId, type, location } = req.body;
   let location, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
@@ -223,7 +223,7 @@ app.post("/api/updateLocation", async (req, res) => {
 });
 
 app.post("/api/updateContact", async (req, res) => {
-  let ( userId, type, contact ) = req.body;
+  let { userId, type, contact } = req.body;
   let contact, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
@@ -243,7 +243,7 @@ app.post("/api/updateContact", async (req, res) => {
 });
 
 app.post("/api/addItem", async (req, res) => {
-  let ( userId, type, item ) = req.body;
+  let { userId, type, item } = req.body;
   let user, newItem, allItems;
   let itemId = mongoose.Types.ObjectId();
   if (type == "Service Provider") {
