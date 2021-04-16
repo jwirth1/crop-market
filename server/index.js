@@ -84,7 +84,7 @@ app.get("/api/farmers", async (req, res) => {
   let farmers = await connector.then(async () => {
     return await Farmer.find();
   });
-  if (!users) {
+  if (!farmers) {
     res.status(400).json({ response: 'No farmers found' });
   }
   else {
@@ -96,7 +96,7 @@ app.get("/api/service-providers", async (req, res) => {
   let serviceProviders = await connector.then(async () => {
     return await ServiceProvider.find();
   });
-  if (!users) {
+  if (!serviceProviders) {
     res.status(400).json({ response: 'No service providers found' });
   }
   else {
@@ -156,18 +156,23 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/addDesire", async (req, res) => {
+  /*let userId = req.body.userID;
+  let desire = req.body.desire;
+  let type = req.body.type;*/
   let ( userId, type, desire ) = req.body;
   let desires, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
-      return await ServiceProvider.findOne({ UserId : userId });
+      return await ServiceProvider.findOne({ provider_id : userId });
     });
   }
   else {
     user = await connector.then(async () => {
-      return await Farmer.findOne({ UserId : userId });
+      return await Farmer.findOne({ farmer_id : userId });
     });
   }
+  console.log(user);
+  
   desires = user.desires;
   desires.push(desire);
   user.desires = desires;
@@ -182,12 +187,12 @@ app.post("/api/updateDescription", async (req, res) => {
   let description, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
-      return await ServiceProvider.findOne({ UserId : userId });
+      return await ServiceProvider.findOne({ provider_id : userId });
     });
   }
   else {
     user = await connector.then(async () => {
-      return await Farmer.findOne({ UserId : userId });
+      return await Farmer.findOne({ farmer_id : userId });
     });
   }
   user.description = description;
@@ -202,12 +207,12 @@ app.post("/api/updateLocation", async (req, res) => {
   let location, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
-      return await ServiceProvider.findOne({ UserId : userId });
+      return await ServiceProvider.findOne({ provider_id : userId });
     });
   }
   else {
     user = await connector.then(async () => {
-      return await Farmer.findOne({ UserId : userId });
+      return await Farmer.findOne({ farmer_id : userId });
     });
   }
   user.location = location;
@@ -222,12 +227,12 @@ app.post("/api/updateContact", async (req, res) => {
   let contact, user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
-      return await ServiceProvider.findOne({ UserId : userId });
+      return await ServiceProvider.findOne({ provider_id : userId });
     });
   }
   else {
     user = await connector.then(async () => {
-      return await Farmer.findOne({ UserId : userId });
+      return await Farmer.findOne({ farmer_id : userId });
     });
   }
   user.contact = contact;
@@ -243,7 +248,7 @@ app.post("/api/addItem", async (req, res) => {
   let itemId = mongoose.Types.ObjectId();
   if (type == "Service Provider") {
     user = await connector.then(async () => {
-      return await ServiceProvider.findOne({ UserId : userId });
+      return await ServiceProvider.findOne({ provider_id : userId });
     });
     newItem = await connector.then(async () => {
       return new Service({
@@ -258,7 +263,7 @@ app.post("/api/addItem", async (req, res) => {
   }
   else {
     user = await connector.then(async () => {
-      return await Farmer.findOne({ UserId : userId });
+      return await Farmer.findOne({ farmer_id : userId });
     });
     newItem = await connector.then(async () => {
       return new Crop({
