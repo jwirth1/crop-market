@@ -67,7 +67,7 @@ app.post("/api/login", async (req, res) => {
   else {
     if (bcrypt.compare(password, user.password)) {
       res.status(200).json({ 
-        reponse: "success",
+        response: "success",
         userId: user.user_id,
         type: user.type
        });
@@ -148,7 +148,7 @@ app.post("/api/signup", async (req, res) => {
       res.status(400).json({ response: "failure in creating user type"});
     }
     res.status(200).json({ 
-      reponse: "success",
+      response: "success",
       userId: userId,
       type: type
     });
