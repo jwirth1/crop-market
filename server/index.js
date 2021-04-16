@@ -184,7 +184,7 @@ app.post("/api/addDesire", async (req, res) => {
 
 app.post("/api/updateDescription", async (req, res) => {
   let { userId, type, description } = req.body;
-  let description, user;
+  let user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
       return await ServiceProvider.findOne({ provider_id : userId });
@@ -204,7 +204,7 @@ app.post("/api/updateDescription", async (req, res) => {
 
 app.post("/api/updateLocation", async (req, res) => {
   let { userId, type, location } = req.body;
-  let location, user;
+  let user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
       return await ServiceProvider.findOne({ provider_id : userId });
@@ -224,7 +224,7 @@ app.post("/api/updateLocation", async (req, res) => {
 
 app.post("/api/updateContact", async (req, res) => {
   let { userId, type, contact } = req.body;
-  let contact, user;
+  let user;
   if (type == "Service Provider") {
     user = await connector.then(async () => {
       return await ServiceProvider.findOne({ provider_id : userId });

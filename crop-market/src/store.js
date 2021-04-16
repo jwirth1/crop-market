@@ -1,3 +1,4 @@
+/* eslint-disable */
 import Vue from 'vue';
 import Vuex from 'vuex';
 import router from '@/router';
@@ -59,7 +60,7 @@ export default new Vuex.Store({
                     alert('Signup failed, please try again.');
                 });
         },
-        async AddDesire({}, { desire }) {
+        async AddDesire({ desire }) {
             axios
                 .post(
                     'http://localhost:3000/api/addDesire',
@@ -70,7 +71,7 @@ export default new Vuex.Store({
                     }
                 );
         },
-        async UpdateDescription({}, { description }) {
+        async UpdateDescription({ description }) {
             axios
                 .post(
                     'http://localhost:3000/api/updateDescription',
@@ -81,7 +82,7 @@ export default new Vuex.Store({
                     }
                 );
         },
-        async UpdateLocation({}, { location }) {
+        async UpdateLocation({ location }) {
             axios
                 .post(
                     'http://localhost:3000/api/updateLocation',
@@ -92,7 +93,7 @@ export default new Vuex.Store({
                     }
                 )
         },
-        async UpdateContact({}, { contact }) {
+        async UpdateContact({ contact }) {
             axios
                 .post(
                     'http://localhost:3000/api/updateContact',
@@ -103,7 +104,7 @@ export default new Vuex.Store({
                     }
                 )
         },
-        async AddItem({}, { item }) {
+        async AddItem({ item }) {
             axios
                 .post(
                     'http://localhost:3000/api/addItem',
