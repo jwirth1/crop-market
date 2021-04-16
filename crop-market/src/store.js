@@ -10,7 +10,7 @@ Vue.use(VueCookies);
 export default new Vuex.Store({
     state: {
         user: Vue.$cookies.get('user'),
-        budget: Vue.$cookies.get('budget')
+        userId: Vue.$cookies.get('userId')
     },
     actions: {
         async LogIn({ commit }, { email, password }) {
@@ -22,8 +22,9 @@ export default new Vuex.Store({
                         password: password
                     }
                 )
-                .then(() => {
+                .then((response) => {
                     commit('setUser', email);
+                    commit('setUserId', response.data.userId);
                     router.push('/');
                 })
                 .catch(() => {
@@ -46,8 +47,9 @@ export default new Vuex.Store({
                         name: name
                     }
                 )
-                .then(() => {
+                .then((response) => {
                     commit('setUser', email);
+                    commit('setUserId', response.data.userId);
                     router.push('/');
                 })
                 .catch(() => {
@@ -60,9 +62,15 @@ export default new Vuex.Store({
             Vue.$cookies.set('user', username);
             state.user = Vue.$cookies.get('user');
         },
+        async setUserId(state, userId) {
+            Vue.$cookies.set('userId', userId);
+            state.userId = Vue.$cookies.get('userId');
+        },
         async removeUser(state) {
             Vue.$cookies.remove('user');
             state.user = null;
+            Vue.$cookies.remove('userId');
+            state.userId = null;
         }
     }
 });

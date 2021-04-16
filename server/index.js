@@ -64,7 +64,7 @@ app.post("/api/login", async (req, res) => {
     if (bcrypt.compare(password, user.password)) {
       res.status(200).json({ 
         reponse: "success",
-        userId: user.userId
+        userId: user.user_id
        });
     }
     else {
@@ -76,27 +76,27 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/farmers", async (req, res) => {
-    let farmers = await connector.then(async () => {
+  let farmers = await connector.then(async () => {
     return await Farmer.find();
   });
   if (!users) {
-    res.status(400).json({ response: 'No users found' });
+    res.status(400).json({ response: 'No farmers found' });
   }
   else {
-    res.status(200).json({ response: farmers});
+    res.status(200).json({ response: farmers });
   }
 });
 
 app.get("/api/service-providers", async (req, res) => {
   let serviceProviders = await connector.then(async () => {
-  return await ServiceProvider.find();
-});
-if (!users) {
-  res.status(400).json({ response: 'No users found' });
-}
-else {
-  res.status(200).json({ response: serviceProviders});
-}
+    return await ServiceProvider.find();
+  });
+  if (!users) {
+    res.status(400).json({ response: 'No service providers found' });
+  }
+  else {
+    res.status(200).json({ response: serviceProviders });
+  }
 });
 
 app.post("/api/signup", async (req, res) => {
