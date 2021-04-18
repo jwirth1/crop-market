@@ -400,6 +400,91 @@ app.get("/api/itemName", async (req, res) => {
   });
 });
 
+app.post("/api/removeItem", async (req, res) => {
+  let { userId, type, itemId } = req.body;
+  let allItems, user;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+    await Service.findOneAndRemove({ _id: itemId });
+    allItems = user.services;
+    for (var i = 0; i < allItems.length; i++) {
+      if (allItems[i] == itemId) {
+        allItems.splice(i, 1);
+        i--;
+      }
+    }
+    user.services = allItems;
+    await user.save();
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+    await Crop.findOneAndRemove({ _id: itemId });
+    allItems = user.crops;
+    for (var i = 0; i < allItems.length; i++) {
+      if (allItems[i] == itemId) {
+        allItems.splice(i, 1);
+        i--;
+      }
+    }
+    user.crops = allItems;
+    await user.save();
+  }
+  res.status(200).json({
+    response: "success"
+  });
+});
+
+app.post("/api/removeDesire", async (req, res) => {
+  let { userId, type, desire } = req.body;
+  let allDesires, user;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+  }
+  allDesires = user.desires;
+  for (var i = 0; i < allDesires.length; i++) {
+    if (allDesires[i] == desire) {
+      allDesires.splice(i, 1);
+      i--;
+    }
+  }
+  user.desires = allDesires;
+  await user.save();
+  res.status(200).json({
+    response: "success"
+  });
+});
+
 app.listen(port, () => {
   console.log(`Server on port ${port}`);
 });

@@ -91,7 +91,7 @@ export default new Vuex.Store({
                         type: this.state.type,
                         location: location
                     }
-                )
+                );
         },
         async UpdateContact({ contact }) {
             axios
@@ -102,7 +102,7 @@ export default new Vuex.Store({
                         type: this.state.type,
                         contact: contact
                     }
-                )
+                );
         },
         async AddItem({ item }) {
             axios
@@ -113,7 +113,29 @@ export default new Vuex.Store({
                         type: this.state.type,
                         item: item
                     }
-                )
+                );
+        },
+        async RemoveItem({ itemId }) {
+            axios
+                .post(
+                    'http://localhost:3000/api/removeItem',
+                    {
+                        userId: this.state.userId,
+                        type: this.state.type,
+                        itemId: itemId
+                    }
+                );
+        },
+        async RemoveDesire({ desire }) {
+            axios
+                .post(
+                    'http://localhost:3000/api/removeDesire',
+                    {
+                        userId: this.state.userId,
+                        type: this.state.type,
+                        desire: desire
+                    }
+                );
         }
     },
     getters: {
