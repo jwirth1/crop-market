@@ -116,6 +116,29 @@ export default new Vuex.Store({
                 )
         }
     },
+    getters: {
+        async GetUser({ userIdParam, type }) {
+            let user;
+            axios
+                .get(
+                    'http://localhost:3000/api/getUser',
+                    {
+                        params: {
+                            userId: userIdParam,
+                            type: type
+                        }
+                    }
+                )
+                .then((response) => {
+                    user = response.data.user;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return user;
+        }
+    },
     mutations: {
         async setUser(state, username) {
             Vue.$cookies.set('user', username);

@@ -34,7 +34,7 @@
                     <v-col cols="4">
                         <v-card>
                             <div class="description">
-                                <h1>description</h1>
+                                <h1>Description</h1>
                             </div>
                         </v-card>
                     </v-col>

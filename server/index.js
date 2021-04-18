@@ -48,9 +48,31 @@ app.get("/api/allusers", async (req, res) => {
     res.status(400).json({ response: 'No users found' });
   }
   else {
-    res.status(200).json({ response: users});
+    res.status(200).json({ response: users });
   }
-})
+});
+
+app.get("/api/allItems", async (req, res) => {
+  let type = req.query.type;
+  let items;
+  if (type == "Service") {
+    items = await connector.then(async () => {
+      return await Service.find();
+    });
+  }
+  else {
+    items = await connector.then(async () => {
+      return await Crop.find();
+    });
+  }
+
+  if (!items) {
+    res.status(400).json({ response: 'No items found' });
+  }
+  else {
+    res.status(200).json({ response: items });
+  }
+});
 
 app.post("/api/login", async (req, res) => {
   const { email, password } = req.body;
@@ -131,7 +153,10 @@ app.post("/api/signup", async (req, res) => {
       userType = await connector.then(async () => {
         return new Farmer({
           farmer_id: userId,
-          name: name
+          name: name,
+          description: 'Update your description!',
+          location: 'Enter a location!',
+          contact: 'Enter your contact information here'
         }).save();
       });
     }
@@ -139,7 +164,10 @@ app.post("/api/signup", async (req, res) => {
       userType = await connector.then(async () => {
         return new ServiceProvider({
           provider_id: userId,
-          name: name
+          name: name,
+          description: 'Update your description!',
+          location: 'Enter a location!',
+          contact: 'Enter your contact information here'
         }).save();
       });
     }
@@ -156,9 +184,6 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/addDesire", async (req, res) => {
-  /*let userId = req.body.userID;
-  let desire = req.body.desire;
-  let type = req.body.type;*/
   let { userId, type, desire } = req.body;
   let desires, user;
   if (type == "Service Provider") {
@@ -171,7 +196,11 @@ app.post("/api/addDesire", async (req, res) => {
       return await Farmer.findOne({ farmer_id : userId });
     });
   }
-  console.log(user);
+  if (!user) {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
   
   desires = user.desires;
   desires.push(desire);
@@ -195,6 +224,11 @@ app.post("/api/updateDescription", async (req, res) => {
       return await Farmer.findOne({ farmer_id : userId });
     });
   }
+  if (!user) {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
   user.description = description;
   await user.save();
   res.status(200).json({
@@ -213,6 +247,11 @@ app.post("/api/updateLocation", async (req, res) => {
   else {
     user = await connector.then(async () => {
       return await Farmer.findOne({ farmer_id : userId });
+    });
+  }
+  if (!user) {
+    res.status(400).json({
+      response: "user not found"
     });
   }
   user.location = location;
@@ -235,6 +274,11 @@ app.post("/api/updateContact", async (req, res) => {
       return await Farmer.findOne({ farmer_id : userId });
     });
   }
+  if (!user) {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
   user.contact = contact;
   await user.save();
   res.status(200).json({
@@ -250,12 +294,22 @@ app.post("/api/addItem", async (req, res) => {
     user = await connector.then(async () => {
       return await ServiceProvider.findOne({ provider_id : userId });
     });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
     newItem = await connector.then(async () => {
       return new Service({
         service_id: itemId,
         name: item
       }).save();
     });
+    if (!newItem) {
+      res.status(400).json({
+        response: "error creating new item"
+      });
+    }
     allItems = user.services;
     allItems.push(newItem);
     user.services = allItems;
@@ -265,18 +319,86 @@ app.post("/api/addItem", async (req, res) => {
     user = await connector.then(async () => {
       return await Farmer.findOne({ farmer_id : userId });
     });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
     newItem = await connector.then(async () => {
       return new Crop({
         crop_id: itemId,
         name: item
       }).save();
     });
+    if (!newItem) {
+      res.status(400).json({
+        response: "error creating new item"
+      });
+    }
     allItems = user.crops;
     allItems.push(newItem);
     user.crops = allItems;
     await user.save();
   }
-})
+  res.status(200).json({
+    response: "success"
+  });
+});
+
+app.get("/api/getUser", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+  }
+
+  if (user) {
+    res.status(200).json({
+      response: "success",
+      user: user
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
+});
+
+app.get("/api/itemName", async (req, res) => {
+  let itemId = req.query.itemId;
+  let type = req.query.type;
+  let item, itemName;
+  if (type == "Service") {
+    item = await connector.then(async () => {
+      return await Service.findOne({ _id: itemId });
+    });
+  }
+  else {
+    item = await connector.then(async () => {
+      return await Crop.findOne({ _id: itemId });
+    });
+  }
+  if (!item) {
+    res.status(400).json({
+      response: "item not found"
+    });
+  }
+
+  itemName = item.name;
+  res.status(200).json({
+    response: "success",
+    name: itemName
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server on port ${port}`);
