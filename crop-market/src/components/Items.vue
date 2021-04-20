@@ -1,6 +1,7 @@
 <template>
-    <v-container fluid fill-height>
+    <v-container fluid>
         <div>
+            <h1>Listings</h1>
             <ul id="items-list">
                 <li v-for="item in items" :key="item.name">
                     {{ item.name }}
@@ -20,7 +21,6 @@ export default {
     },
     async created () {
         const response = await this.$store.getters.getItems;
-        console.log(response);
         this.items = response;
     }
 }

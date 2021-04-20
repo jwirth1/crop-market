@@ -404,7 +404,7 @@ app.get("/api/getItems", async (req, res) => {
       response: "user not found"
     });
   }
-})
+});
 
 app.get("/api/itemName", async (req, res) => {
   let itemId = req.query.itemId;
@@ -516,6 +516,34 @@ app.post("/api/removeDesire", async (req, res) => {
   res.status(200).json({
     response: "success"
   });
+});
+
+app.get("/api/getDesires", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user, desires;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+  }
+
+  if (user) {
+    desires = user.desires;
+    res.status(200).json({
+      desires: desires
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
 });
 
 app.listen(port, () => {

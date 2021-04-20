@@ -184,7 +184,6 @@ export default new Vuex.Store({
                     }
                 )
                 .then((response) => {
-                    console.log(response.data.items);
                     itemsList =  response.data.items;
                 })
                 .catch(() => {
@@ -192,6 +191,26 @@ export default new Vuex.Store({
                     return null;
                 });
             return itemsList;
+        },
+        async getDesires(state) {
+            let desiresList = [];
+            await axios
+                .get('http://localhost:3000/api/getDesires',
+                    {
+                        params: {
+                            userId: state.userId,
+                            type: state.type
+                        }
+                    }
+                )
+                .then((response) => {
+                    desiresList =  response.data.desires;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return desiresList;
         }
     },
     mutations: {

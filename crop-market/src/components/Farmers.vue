@@ -1,15 +1,14 @@
 <template>
-<v-container fluid fill-height class="hello">
-    <div>
-        <ul>
-            <li v-for="farmer in farmers" :key="farmer.name">
-                <h1>{{ farmer.name }}</h1>
-            </li>
-        </ul>
-    </div>
-    <h1>Hello</h1>
-</v-container>
-
+    <v-container fluid fill-height class="hello">
+        <div>
+            <ul>
+                <li v-for="farmer in farmers" :key="farmer.name">
+                    <h1>{{ farmer.name }}</h1>
+                </li>
+            </ul>
+        </div>
+        <h1>Hello</h1>
+    </v-container>
 </template>
 
 <script>
