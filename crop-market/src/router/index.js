@@ -43,7 +43,7 @@ const routes = [
     {
         path: '/farmers',
         name: 'Farmers',
-        component:() => import('../components/Farmers.vue')
+        component:() => import('../views/Farmers.vue')
     },
     {
         path: '/service-providers',

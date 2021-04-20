@@ -1,6 +1,6 @@
 <template>
     <ul id="items-list">
-        <li v-for="item in items" :key="item.name">
+        <li v-for="item in this.items" :key="item.name">
             {{item.name}}
         </li>
     </ul>
@@ -9,7 +9,8 @@
 <script>
 module.exports = {
     data: function () {
-        let user = this.$store.getters.GetUser(this.$store.state.userId);
+        let user = this.$store.getters.GetUser();
+        console.log(user);
         let items;
         if (this.$store.state.type == 'Service Provider') {
             items = user.services;
@@ -17,7 +18,9 @@ module.exports = {
         else {
             items = user.crops;
         }
-        return items;
+        return {
+            items: items
+        }
     }
 }
 </script>

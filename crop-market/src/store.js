@@ -162,21 +162,16 @@ export default new Vuex.Store({
         },
         async getFarmers() {
             let farmersList = [];
-            axios
+            await axios
                 .get('http://localhost:3000/api/farmers')
                 .then((response) => {
-                    let res = [];
-                    farmersList = response.data.farmers
-                    alert(farmersList)
-                    for (var i in farmersList) {
-                        alert(farmersList[i].name);
-                    }
+                    farmersList = response.data.response;
                 })
                 .catch(() => {
                     alert('Error: No farmers available');
                     return null;
                 });
-                return farmersList;
+            return farmersList;
         }
     },
     mutations: {
