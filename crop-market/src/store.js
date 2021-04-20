@@ -139,26 +139,25 @@ export default new Vuex.Store({
         }
     },
     getters: {
-        async GetUser({ userIdParam, type }) {
-            let user;
+        async getUser(state) {
             axios
                 .get(
                     'http://localhost:3000/api/getUser',
                     {
                         params: {
-                            userId: userIdParam,
-                            type: type
+                            userId: state.userId,
+                            type: state.type
                         }
                     }
                 )
                 .then((response) => {
-                    user = response.data.user;
+                    console.log(response.data.user);
+                    return response.data.user;
                 })
                 .catch(() => {
                     alert('Error: user not found');
                     return null;
                 });
-            return user;
         },
         async getFarmers() {
             let farmersList = [];
@@ -172,6 +171,27 @@ export default new Vuex.Store({
                     return null;
                 });
             return farmersList;
+        },
+        async getItems(state) {
+            let itemsList = [];
+            await axios
+                .get('http://localhost:3000/api/getItems',
+                    {
+                        params: {
+                            userId: state.userId,
+                            type: state.type
+                        }
+                    }
+                )
+                .then((response) => {
+                    console.log(response.data.items);
+                    itemsList =  response.data.items;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return itemsList;
         }
     },
     mutations: {

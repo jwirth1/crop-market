@@ -373,6 +373,39 @@ app.get("/api/getUser", async (req, res) => {
   }
 });
 
+app.get("/api/getItems", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user, items;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (user) {
+      items = (await Service.find().where('_id').in(user.services));
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (user) {
+      items = (await Crop.find().where('_id').in(user.crops));
+    }
+  }
+
+  if (user) {
+    res.status(200).json({
+      items: items
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
+})
+
 app.get("/api/itemName", async (req, res) => {
   let itemId = req.query.itemId;
   let type = req.query.type;

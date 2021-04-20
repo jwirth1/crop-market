@@ -1,26 +1,27 @@
 <template>
-    <ul id="items-list">
-        <li v-for="item in this.items" :key="item.name">
-            {{item.name}}
-        </li>
-    </ul>
+    <v-container fluid fill-height>
+        <div>
+            <ul id="items-list">
+                <li v-for="item in items" :key="item.name">
+                    {{ item.name }}
+                </li>
+            </ul>
+        </div>
+    </v-container>
 </template>
 
 <script>
-module.exports = {
-    data: function () {
-        let user = this.$store.getters.GetUser();
-        console.log(user);
-        let items;
-        if (this.$store.state.type == 'Service Provider') {
-            items = user.services;
-        }
-        else {
-            items = user.crops;
-        }
+export default {
+    name: 'Items',
+    data () {
         return {
-            items: items
+            items: null
         }
+    },
+    async created () {
+        const response = await this.$store.getters.getItems;
+        console.log(response);
+        this.items = response;
     }
 }
 </script>

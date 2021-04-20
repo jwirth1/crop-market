@@ -49,22 +49,7 @@ const routes = [
         path: '/service-providers',
         name: 'Service-Providers',
         component:() => import('../views/ServiceProviders.vue')
-    },/*
-    {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('../views/Dashboard.vue')
-    },
-    {
-        path: '/configure',
-        name: 'Configure',
-        component: () => import('../views/Configure.vue')
-    },
-    {
-        path: '/enter-expenses',
-        name: 'Enter-Expenses',
-        component: () => import('../views/EnterExpenses.vue')
-    }*/
+    }
 ];
 
 const router = new VueRouter({
