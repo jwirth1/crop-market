@@ -159,6 +159,24 @@ export default new Vuex.Store({
                     return null;
                 });
             return user;
+        },
+        async getFarmers() {
+            let farmersList = [];
+            axios
+                .get('http://localhost:3000/api/farmers')
+                .then((response) => {
+                    let res = [];
+                    farmersList = response.data.farmers
+                    alert(farmersList)
+                    for (var i in farmersList) {
+                        alert(farmersList[i].name);
+                    }
+                })
+                .catch(() => {
+                    alert('Error: No farmers available');
+                    return null;
+                });
+                return farmersList;
         }
     },
     mutations: {
