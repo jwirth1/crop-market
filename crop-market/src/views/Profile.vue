@@ -16,17 +16,7 @@
                         <v-card>
                             <div class="profileInfo">
                                 <div>
-                                    <h1>Jane's Cleaning Parlor</h1>
-                                </div>
-                                <div>
-                                    <h2>Charlotte, NC</h2>
-                                </div>
-                                <div>
-                                    Rating
-                                </div>
-                                <div>
-                                    <h3>Contact</h3>
-                                    <h5>jane@janesclean.com</h5>
+                                    <main-info></main-info>
                                 </div>
                             </div>
                         </v-card>
@@ -34,7 +24,7 @@
                     <v-col cols="4">
                         <v-card>
                             <div class="description">
-                                <h1>Description</h1>
+                                <description></description>
                             </div>
                         </v-card>
                     </v-col>
@@ -45,7 +35,7 @@
                             <div class="services">
                                 <v-rows>
                                     <v-col>
-                                        <h1>Services</h1>
+                                        <items></items>
                                     </v-col>
                                     <v-col>
                                         <v-btn fab class="mt-5 white accent-4" name="add">
@@ -61,7 +51,7 @@
                             <div class="desires">
                                 <v-rows>
                                     <v-col>
-                                        <h1>Desires</h1>
+                                        <desires></desires>
                                     </v-col>
                                     <v-col>
                                         <v-btn fab class="mt-5 white accent-4" name="add">
@@ -95,3 +85,17 @@
     background-size: cover;
 }
 </style>
+
+<script>
+import Items from '@/components/Items';
+import Desires from '@/components/Desires';
+import Description from '@/components/Description';
+import MainInfo from '@/components/MainInfo';
+
+export default {
+    name: 'profile',
+    components: {
+        Items, Desires, Description, MainInfo
+    }
+};
+</script>
