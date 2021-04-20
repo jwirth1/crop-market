@@ -21,7 +21,6 @@ export default {
     },
     async created () {
         const response = await this.$store.getters.getDesires;
-        console.log(response);
         this.desires = response;
     }
 }

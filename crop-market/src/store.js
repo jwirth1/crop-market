@@ -140,7 +140,8 @@ export default new Vuex.Store({
     },
     getters: {
         async getUser(state) {
-            axios
+            let user = null;
+            await axios
                 .get(
                     'http://localhost:3000/api/getUser',
                     {
@@ -151,13 +152,13 @@ export default new Vuex.Store({
                     }
                 )
                 .then((response) => {
-                    console.log(response.data.user);
-                    return response.data.user;
+                    user = response.data.user;
                 })
                 .catch(() => {
                     alert('Error: user not found');
                     return null;
                 });
+            return user;
         },
         async getFarmers() {
             let farmersList = [];
