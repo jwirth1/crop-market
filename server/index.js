@@ -302,7 +302,8 @@ app.post("/api/addItem", async (req, res) => {
     newItem = await connector.then(async () => {
       return new Service({
         service_id: itemId,
-        name: item
+        name: item,
+        user_id: userId
       }).save();
     });
     if (!newItem) {
@@ -327,7 +328,8 @@ app.post("/api/addItem", async (req, res) => {
     newItem = await connector.then(async () => {
       return new Crop({
         crop_id: itemId,
-        name: item
+        name: item,
+        user_id: userId
       }).save();
     });
     if (!newItem) {
@@ -542,6 +544,44 @@ app.get("/api/getDesires", async (req, res) => {
   else {
     res.status(400).json({
       response: "user not found"
+    });
+  }
+});
+
+app.get("/api/findCrops", async (req, res) => {
+  let searchQuery = req.query.crop;
+  let crops;
+  crops = await connector.then(async () => {
+    return await Crop.find({name: {$regex: searchQuery, $options: 'i'}});
+  });
+
+  if (crops) {
+    res.status(200).json({
+      crops: crops
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "no crops found"
+    });
+  }
+});
+
+app.get("/api/findServices", async (req, res) => {
+  let searchQuery = req.query.service;
+  let services;
+  services = await connector.then(async () => {
+    return await Service.find({name: {$regex: searchQuery, $options: 'i'}});
+  });
+
+  if (services) {
+    res.status(200).json({
+      services: services
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "no services found"
     });
   }
 });
