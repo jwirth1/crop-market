@@ -212,6 +212,44 @@ export default new Vuex.Store({
                     return null;
                 });
             return desiresList;
+        },
+        async getCrops(crop) {
+            let cropsList = [];
+            await axios
+                .get('http://locatlhost:3000/api/findCrops',
+                    {
+                        params: {
+                            crop: crop
+                        }
+                    }
+                )
+                .then((response) => {
+                    cropsList = response.data.crops;
+                })
+                .catch(() => {
+                    alert('Error: no crops found');
+                    return null;
+                });
+            return cropsList;
+        },
+        async getServices(service) {
+            let servicesList = [];
+            await axios
+                .get('http://locatlhost:3000/api/findServices',
+                    {
+                        params: {
+                            service: service
+                        }
+                    }
+                )
+                .then((response) => {
+                    servicesList = response.data.services;
+                })
+                .catch(() => {
+                    alert('Error: no crops found');
+                    return null;
+                });
+            return servicesList;
         }
     },
     mutations: {
