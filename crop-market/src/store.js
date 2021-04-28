@@ -12,7 +12,9 @@ export default new Vuex.Store({
     state: {
         user: Vue.$cookies.get('user'),
         userId: Vue.$cookies.get('userId'),
-        type: Vue.$cookies.get('type')
+        type: Vue.$cookies.get('type'),
+        viewedUserId: Vue.$cookies.get('viewedUserId'),
+        viewedUserType: Vue.$cookies.get('viewedUserType')
     },
     actions: {
         async LogIn({ commit }, { email, password }) {
@@ -160,6 +162,27 @@ export default new Vuex.Store({
                 });
             return user;
         },
+        async getViewedUser(state) {
+            let user = null;
+            await axios
+                .get(
+                    'http://localhost:3000/api/getUser',
+                    {
+                        params: {
+                            userId: state.viewedUserId,
+                            type: state.viewedUserType
+                        }
+                    }
+                )
+                .then((response) => {
+                    user = response.data.user;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return user;
+        },
         async getFarmers() {
             let farmersList = [];
             await axios
@@ -172,6 +195,19 @@ export default new Vuex.Store({
                     return null;
                 });
             return farmersList;
+        },
+        async getServiceProviders() {
+            let providersList = [];
+            await axios
+                .get('http://localhost:3000/api/service-providers')
+                .then((response) => {
+                    providersList = response.data.response;
+                })
+                .catch(() => {
+                    alert('Error: No service providers available');
+                    return null;
+                });
+            return providersList;
         },
         async getItems(state) {
             let itemsList = [];
@@ -193,6 +229,26 @@ export default new Vuex.Store({
                 });
             return itemsList;
         },
+        async getViewedItems(state) {
+            let itemsList = [];
+            await axios
+                .get('http://localhost:3000/api/getItems',
+                    {
+                        params: {
+                            userId: state.viewedUserId,
+                            type: state.viewedUserType
+                        }
+                    }
+                )
+                .then((response) => {
+                    itemsList =  response.data.items;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return itemsList;
+        },
         async getDesires(state) {
             let desiresList = [];
             await axios
@@ -201,6 +257,26 @@ export default new Vuex.Store({
                         params: {
                             userId: state.userId,
                             type: state.type
+                        }
+                    }
+                )
+                .then((response) => {
+                    desiresList =  response.data.desires;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return desiresList;
+        },
+        async getViewedDesires(state) {
+            let desiresList = [];
+            await axios
+                .get('http://localhost:3000/api/getDesires',
+                    {
+                        params: {
+                            userId: state.viewedUserId,
+                            type: state.viewedUserType
                         }
                     }
                 )
@@ -270,6 +346,22 @@ export default new Vuex.Store({
             state.user = null;
             Vue.$cookies.remove('userId');
             state.userId = null;
+            Vue.$cookies.remove('type');
+            state.type = null;
+        },
+        async setViewedUser(state, viewedUserId) {
+            Vue.$cookies.set('viewedUserId', viewedUserId);
+            state.viewedUserId = Vue.$cookies.get('viewedUserId');
+        },
+        async setViewedUserType(state, viewedUserType) {
+            Vue.$cookies.set('viewedUserType', viewedUserType);
+            state.viewedUserType = Vue.$cookies.get('viewedUserType');
+        },
+        async removeViewedUser(state) {
+            Vue.$cookies.remove('viewedUserId');
+            state.viewedUserId = null;
+            Vue.$cookies.remove('viewedUserType');
+            state.viewedUserType = null;
         }
     }
 });

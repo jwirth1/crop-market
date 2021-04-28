@@ -10,14 +10,26 @@
 <script>
 export default {
     name: 'Description',
+    props: {
+        viewed: {
+            type: Boolean,
+            default: false
+        }
+    },
     data () {
         return {
             description: null
         }
     },
     async created () {
-        const response = await this.$store.getters.getUser;
-        this.description = response.description;
+        if (this.viewed) {
+            const response = await this.$store.getters.getViewedUser;
+            this.description = response.description;
+        }
+        else {
+            const response = await this.$store.getters.getUser;
+            this.description = response.description;
+        }
     }
 }
 </script>

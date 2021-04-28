@@ -14,14 +14,26 @@
 <script>
 export default {
     name: 'Items',
+    props: {
+        viewed: {
+            type: Boolean,
+            default: false
+        }
+    },
     data () {
         return {
             items: null
         }
     },
     async created () {
-        const response = await this.$store.getters.getItems;
-        this.items = response;
+        if (this.viewed) {
+            const response = await this.$store.getters.getViewedItems;
+            this.items = response;
+        }
+        else {
+            const response = await this.$store.getters.getItems;
+            this.items = response;
+        }
     }
 }
 </script>

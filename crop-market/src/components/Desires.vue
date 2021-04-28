@@ -14,14 +14,26 @@
 <script>
 export default {
     name: 'Desires',
+    props: {
+        viewed: {
+            type: Boolean,
+            default: false
+        }
+    },
     data () {
         return {
             desires: null
         }
     },
     async created () {
-        const response = await this.$store.getters.getDesires;
-        this.desires = response;
+        if (this.viewed) {
+            const response = await this.$store.getters.getDesires;
+            this.desires = response;
+        }
+        else {
+            const response = await this.$store.getters.getDesires;
+            this.desires = response;
+        }
     }
 }
 </script>

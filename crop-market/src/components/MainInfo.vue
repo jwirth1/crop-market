@@ -13,6 +13,12 @@
 <script>
 export default {
     name: 'MainInfo',
+    props: {
+        viewed: {
+            type: Boolean,
+            default: false
+        }
+    },
     data () {
         return {
             name: null,
@@ -21,10 +27,18 @@ export default {
         }
     },
     async created () {
-        const response = await this.$store.getters.getUser;
-        this.name = response.name;
-        this.location = response.location;
-        this.contact = response.contact;
+        if (this.viewed) {
+            const response = await this.$store.getters.getViewedUser;
+            this.name = response.name;
+            this.location = response.location;
+            this.contact = response.contact;
+        }
+        else {
+            const response = await this.$store.getters.getUser;
+            this.name = response.name;
+            this.location = response.location;
+            this.contact = response.contact;
+        }
     }
 }
 </script>
