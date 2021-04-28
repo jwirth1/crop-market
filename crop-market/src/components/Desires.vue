@@ -27,7 +27,7 @@ export default {
     },
     async created () {
         if (this.viewed) {
-            const response = await this.$store.getters.getDesires;
+            const response = await this.$store.getters.getViewedDesires;
             this.desires = response;
         }
         else {
