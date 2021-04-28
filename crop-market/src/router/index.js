@@ -49,6 +49,11 @@ const routes = [
         path: '/service-providers',
         name: 'Service-Providers',
         component:() => import('../views/ServiceProviders.vue')
+    },
+    {
+        path: '/viewed-profile',
+        name: 'Viewed-Profile',
+        component:() => import('../views/ViewedProfile.vue')
     }
 ];
 

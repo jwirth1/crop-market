@@ -39,6 +39,7 @@ export default new Vuex.Store({
         },
         async LogOut({ commit }) {
             commit('removeUser');
+            commit('removeViewedUser');
             router.push('/');
         },
         async SignUp({ commit }, { email, password, type, name }) {
@@ -138,6 +139,11 @@ export default new Vuex.Store({
                         desire: desire
                     }
                 );
+        },
+        async ViewUser({ commit }, { userId, type }) {
+            commit(setViewedUserId(userId));
+            commit(setViewedUserType(type));
+            router.push('/viewed-profile');
         }
     },
     getters: {
