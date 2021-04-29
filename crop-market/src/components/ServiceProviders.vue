@@ -2,10 +2,10 @@
     <v-container fluid fill-height class="hello">
         <v-layout column>
             <v-row>
-                <v-col cols="4" v-for="farmer in farmers" :key="farmer.name">
+                <v-col cols="4" v-for=" provider in providers" :key="provider.name">
                     <v-card>
                         <div>
-                             <h1>{{ farmer.name }}</h1>
+                             <h1>{{ provider.name }}</h1>
                         </div>
                     </v-card>
                 </v-col>
@@ -16,15 +16,15 @@
 
 <script>
 export default {
-    name: 'Farmers',
+    name: 'Providers',
     data () {
         return {
-            farmers: null,
+            providers: null,
         }
     },
     async created () {
-        const response = await this.$store.getters.getFarmers;
-        this.farmers = response;
+        const response = await this.$store.getters.getServiceProviders;
+        this.providers = response;
     }
 }
 </script>
