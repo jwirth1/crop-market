@@ -1,7 +1,6 @@
 <template>
     <v-container fluid>
         <div>
-            <h1>Listings</h1>
             <ul id="items-list">
                 <li v-for="item in items" :key="item.name">
                     {{ item.name }}
