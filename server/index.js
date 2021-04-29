@@ -14,11 +14,13 @@ const farmerSchema = require("./schema/farmerSchema.js");
 const serviceProviderSchema = require("./schema/serviceProviderSchema.js");
 const serviceSchema = require("./schema/serviceSchema.js");
 const cropSchema = require("./schema/cropSchema.js");
+const reviewSchema = require("./schema/reviewSchema.js");
 const User = mongoose.model('user', userSchema, 'user');
 const Farmer = mongoose.model('farmer', farmerSchema, 'farmer');
 const ServiceProvider = mongoose.model('service_provider', serviceProviderSchema, 'service_provider');
 const Service = mongoose.model('service', serviceSchema, 'service');
 const Crop = mongoose.model('crop', cropSchema, 'crop');
+const Review = mongoose.model('review', reviewSchema, 'review');
 
 const connectionString = 'mongodb+srv://cropAdmin:theCropMarket@cluster0.gjru1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
@@ -399,6 +401,86 @@ app.get("/api/getItems", async (req, res) => {
   if (user) {
     res.status(200).json({
       items: items
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
+});
+
+app.post("/api/addReview", async (req, res) => {
+  let { userId, type, name, rating, description } = req.body;
+  let user, newReview, allReviews;
+  let reviewId = mongoose.Types.ObjectId();
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+  }
+
+  newReview = await connector.then(async () => {
+    return new Review({
+      review_id: reviewId,
+      name: name, 
+      rating: rating,
+      description: description
+    }).save();
+  });
+  if (!newReview) {
+    res.status(400).json({
+      response: "error creating new review"
+    });
+  }
+  allReviews = user.reviews;
+  allReviews.push(newReview);
+  user.reviews = allReviews;
+  await user.save();
+  res.status(200).json({
+    response: "success"
+  });
+});
+
+app.get("/api/getReviews", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user, reviews;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (user) {
+      reviews = (await Review.find().where('_id').in(user.reviews));
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (user) {
+      reviews = (await Review.find().where('_id').in(user.reviews));
+    }
+  }
+
+  if (user) {
+    res.status(200).json({
+      reviews: reviews
     });
   }
   else {

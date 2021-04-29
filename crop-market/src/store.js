@@ -72,7 +72,10 @@ export default new Vuex.Store({
                         type: this.state.type,
                         desire: desire
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error adding desire');
+                });
         },
         async UpdateDescription({ description }) {
             axios
@@ -83,7 +86,10 @@ export default new Vuex.Store({
                         type: this.state.type,
                         description: description
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error updating description');
+                });
         },
         async UpdateLocation({ location }) {
             axios
@@ -94,7 +100,10 @@ export default new Vuex.Store({
                         type: this.state.type,
                         location: location
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error updating location');
+                });
         },
         async UpdateContact({ contact }) {
             axios
@@ -105,7 +114,10 @@ export default new Vuex.Store({
                         type: this.state.type,
                         contact: contact
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error updating contact info');
+                });
         },
         async AddItem({ item }) {
             axios
@@ -116,7 +128,10 @@ export default new Vuex.Store({
                         type: this.state.type,
                         item: item
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error adding item');
+                });
         },
         async RemoveItem({ itemId }) {
             axios
@@ -127,7 +142,10 @@ export default new Vuex.Store({
                         type: this.state.type,
                         itemId: itemId
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error removing item');
+                });
         },
         async RemoveDesire({ desire }) {
             axios
@@ -138,12 +156,31 @@ export default new Vuex.Store({
                         type: this.state.type,
                         desire: desire
                     }
-                );
+                )
+                .catch(() => {
+                    alert('Error removing desire');
+                });
         },
         async ViewUser({ commit }, { userId, type }) {
             commit(setViewedUserId(userId));
             commit(setViewedUserType(type));
             router.push('/viewed-profile');
+        },
+        async AddReview({ rating, description }) {
+            axios
+                .post(
+                    'http://localhost:3000/api/addReview',
+                    {
+                        userId: this.state.viewedUserId,
+                        type: this.state.viewedUserType,
+                        name: this.state.user.name,
+                        rating: rating,
+                        description: description
+                    }
+                )
+                .catch(() => {
+                    alert('Error adding review');
+                });
         }
     },
     getters: {
@@ -298,7 +335,7 @@ export default new Vuex.Store({
         async getCrops(crop) {
             let cropsList = [];
             await axios
-                .get('http://locatlhost:3000/api/findCrops',
+                .get('http://localhost:3000/api/findCrops',
                     {
                         params: {
                             crop: crop
@@ -317,7 +354,7 @@ export default new Vuex.Store({
         async getServices(service) {
             let servicesList = [];
             await axios
-                .get('http://locatlhost:3000/api/findServices',
+                .get('http://localhost:3000/api/findServices',
                     {
                         params: {
                             service: service
@@ -332,7 +369,48 @@ export default new Vuex.Store({
                     return null;
                 });
             return servicesList;
+        },
+        async getReviews(state) {
+            let reviewList = [];
+            await axios
+                .get('http://localhost:3000/api/getReviews',
+                    {
+                        params: {
+                            userId: state.userId,
+                            type: state.type
+                        }
+                    }
+                )
+                .then((response) => {
+                    reviewList = response.data.reviews;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return reviewList;
+        },
+        async getViewedReviews(state) {
+            let reviewList = [];
+            await axios
+                .get('http://localhost:3000/api/getReviews',
+                    {
+                        params: {
+                            userId: state.viewedUserId,
+                            type: state.viewedUserType
+                        }
+                    }
+                )
+                .then((response) => {
+                    reviewList = response.data.reviews;
+                })
+                .catch(() => {
+                    alert('Error: user not found');
+                    return null;
+                });
+            return reviewList;
         }
+
     },
     mutations: {
         async setUser(state, username) {
