@@ -105,8 +105,14 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/farmers", async (req, res) => {
+  let locationParam = req.query.location;
   let farmers = await connector.then(async () => {
-    return await Farmer.find();
+    if (locationParam === undefined) {
+      return await Farmer.find();
+    }
+    else {
+      return await Farmer.find({location: {$regex: locationParam, $options: 'i'}});
+    }
   });
   if (!farmers) {
     res.status(400).json({ response: 'No farmers found' });
@@ -117,8 +123,14 @@ app.get("/api/farmers", async (req, res) => {
 });
 
 app.get("/api/service-providers", async (req, res) => {
+  let locationParam = req.query.location;
   let serviceProviders = await connector.then(async () => {
-    return await ServiceProvider.find();
+    if (locationParam === undefined) {
+      return await ServiceProvider.find();
+    }
+    else {
+      return await ServiceProvider.find({location: {$regex: locationParam, $options: 'i'}});
+    }
   });
   if (!serviceProviders) {
     res.status(400).json({ response: 'No service providers found' });

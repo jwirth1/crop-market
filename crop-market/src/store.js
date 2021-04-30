@@ -226,10 +226,16 @@ export default new Vuex.Store({
                 });
             return user;
         },
-        async getFarmers() {
+        async getFarmers(location) {
             let farmersList = [];
             await axios
-                .get('http://localhost:3000/api/farmers')
+                .get('http://localhost:3000/api/farmers', 
+                    {
+                        params: {
+                            location: location
+                        }
+                    }
+                )
                 .then((response) => {
                     farmersList = response.data.response;
                 })
@@ -239,10 +245,16 @@ export default new Vuex.Store({
                 });
             return farmersList;
         },
-        async getServiceProviders() {
+        async getServiceProviders(location) {
             let providersList = [];
             await axios
-                .get('http://localhost:3000/api/service-providers')
+                .get('http://localhost:3000/api/service-providers',
+                    {
+                        params: {
+                            location: location
+                        }
+                    }
+                )
                 .then((response) => {
                     providersList = response.data.response;
                 })
