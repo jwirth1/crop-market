@@ -77,7 +77,16 @@
                 <v-col cols="4">
                     <v-card>
                         <div class="Reviews">
-                            <h1>Reviews</h1>
+                            <v-row>
+                                <v-col class = "listANDdesirebox">
+                                    <h1>Reviews</h1>
+                                </v-col>
+                            </v-row>
+                            <v-row>
+                                <v-col>
+                                    <reviews></reviews>
+                                </v-col>
+                            </v-row>
                         </div>
                     </v-card>
                 </v-col>
@@ -117,11 +126,12 @@ import Items from '@/components/Items';
 import Desires from '@/components/Desires';
 import Description from '@/components/Description';
 import MainInfo from '@/components/MainInfo';
+import Reviews from '@/components/Reviews';
 
 export default {
     name: 'profile',
     components: {
-        Items, Desires, Description, MainInfo
+        Items, Desires, Description, MainInfo, Reviews
     }
 };
 </script>

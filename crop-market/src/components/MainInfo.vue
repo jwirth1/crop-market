@@ -4,6 +4,7 @@
             <h1>Main Info</h1>
             <h1>{{ name }}</h1>
             <h2>{{ location }}</h2>
+            <h2>Rating: {{ rating }}</h2>
             <h3>Contact</h3>
             <b>{{ contact }}</b>
         </div>
@@ -23,7 +24,8 @@ export default {
         return {
             name: null,
             location: null,
-            contact: null
+            contact: null,
+            rating: null
         }
     },
     async created () {
@@ -32,12 +34,24 @@ export default {
             this.name = response.name;
             this.location = response.location;
             this.contact = response.contact;
+            if (response.rating === undefined) {
+                this.rating = 'No ratings yet!';
+            }
+            else {
+                this.rating = response.rating;
+            }
         }
         else {
             const response = await this.$store.getters.getUser;
             this.name = response.name;
             this.location = response.location;
             this.contact = response.contact;
+            if (response.rating === undefined) {
+                this.rating = 'No ratings yet!';
+            }
+            else {
+                this.rating = response.rating;
+            }
         }
     }
 }

@@ -52,14 +52,23 @@
                     <v-col cols="4">
                         <v-card>
                             <div class="Reviews">
-                                <h1>Reviews</h1>
+                                <v-row>
+                                    <v-col class = "listANDdesirebox">
+                                        <h1>Reviews</h1>
+                                    </v-col>
+                                    <v-col>
+                                        <v-btn fab class="mt-5 white accent-4" name="add">
+                                            <v-icon>mdi-plus-box-outline</v-icon>
+                                        </v-btn>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col>
+                                        <reviews viewed=true></reviews>
+                                    </v-col>
+                                </v-row>
                             </div>
                             <v-rows>
-                                <v-col>
-                                    <v-btn fab class="mt-5 white accent-4" name="add">
-                                        <v-icon>mdi-plus-box-outline</v-icon>
-                                    </v-btn>
-                                </v-col>
                             </v-rows>
                         </v-card>
                     </v-col>
