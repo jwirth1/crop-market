@@ -463,6 +463,18 @@ app.post("/api/addReview", async (req, res) => {
   allReviews = user.reviews;
   allReviews.push(newReview);
   user.reviews = allReviews;
+  if (user.reviews.length == 1) {
+    user.rating = rating;
+  }
+  else {
+    let totalRating = 0;
+    for (let i = 0; i < user.reviews.length; i++) {
+      thisRating = (await Review.find().where('_id').in(user.reviews[i]));
+      totalRating += thisRating[0].rating;
+    }
+    totalRating = (totalRating / user.reviews.length).toFixed(2);
+    user.rating = totalRating;
+  }
   await user.save();
   res.status(200).json({
     response: "success"

@@ -28,6 +28,9 @@ const farmerSchema = new mongoose.Schema({
     },
     contact: {
         type: String
+    },
+    rating: {
+        type: Number
     }
 });
 
