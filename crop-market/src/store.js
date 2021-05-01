@@ -63,48 +63,6 @@ export default new Vuex.Store({
                     alert('Signup failed, please try again.');
                 });
         },
-        async UpdateDescription({ description }) {
-            axios
-                .post(
-                    'http://localhost:3000/api/updateDescription',
-                    {
-                        userId: this.state.userId,
-                        type: this.state.type,
-                        description: description
-                    }
-                )
-                .catch(() => {
-                    alert('Error updating description');
-                });
-        },
-        async UpdateLocation({ location }) {
-            axios
-                .post(
-                    'http://localhost:3000/api/updateLocation',
-                    {
-                        userId: this.state.userId,
-                        type: this.state.type,
-                        location: location
-                    }
-                )
-                .catch(() => {
-                    alert('Error updating location');
-                });
-        },
-        async UpdateContact({ contact }) {
-            axios
-                .post(
-                    'http://localhost:3000/api/updateContact',
-                    {
-                        userId: this.state.userId,
-                        type: this.state.type,
-                        contact: contact
-                    }
-                )
-                .catch(() => {
-                    alert('Error updating contact info');
-                });
-        },
         async RemoveItem({ itemId }) {
             axios
                 .post(

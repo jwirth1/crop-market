@@ -8,9 +8,7 @@
                             <div class="profilePicandEdit">
                                 <h1>Profile Pic</h1>
                             </div>
-                            <v-btn class="rounded slategray" name="edit-profile">
-                                Edit Profile
-                            </v-btn>
+                            <update-profile></update-profile>
                         </v-card>
                     </v-flex>
                 </v-col>
@@ -125,11 +123,12 @@ import MainInfo from '@/components/MainInfo';
 import Reviews from '@/components/Reviews';
 import AddItem from '@/components/AddItem';
 import AddDesire from '@/components/AddDesire';
+import UpdateProfile from '@/components/UpdateProfile';
 
 export default {
     name: 'profile',
     components: {
-        Items, Desires, Description, MainInfo, Reviews, AddItem, AddDesire
+        Items, Desires, Description, MainInfo, Reviews, AddItem, AddDesire, UpdateProfile
     }
 };
 </script>
