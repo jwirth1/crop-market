@@ -63,20 +63,6 @@ export default new Vuex.Store({
                     alert('Signup failed, please try again.');
                 });
         },
-        async AddDesire({ desire }) {
-            axios
-                .post(
-                    'http://localhost:3000/api/addDesire',
-                    {
-                        userId: this.state.userId,
-                        type: this.state.type,
-                        desire: desire
-                    }
-                )
-                .catch(() => {
-                    alert('Error adding desire');
-                });
-        },
         async UpdateDescription({ description }) {
             axios
                 .post(
@@ -117,20 +103,6 @@ export default new Vuex.Store({
                 )
                 .catch(() => {
                     alert('Error updating contact info');
-                });
-        },
-        async AddItem({ item }) {
-            axios
-                .post(
-                    'http://localhost:3000/api/addItem',
-                    {
-                        userId: this.state.userId,
-                        type: this.state.type,
-                        item: item
-                    }
-                )
-                .catch(() => {
-                    alert('Error adding item');
                 });
         },
         async RemoveItem({ itemId }) {

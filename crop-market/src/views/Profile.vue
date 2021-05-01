@@ -40,9 +40,7 @@
                                     <h1>Listings</h1>
                                 </v-col>
                                 <v-col>
-                                    <v-btn fab class="mt-5 white accent-4" name="add" :style="{left: '25%', top: '-30%', transform:'translateX(0%)'}">
-                                        <v-icon>mdi-plus-box-outline</v-icon>
-                                    </v-btn>
+                                    <add-item></add-item>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -61,9 +59,7 @@
                                     <h1>Desires</h1>
                                 </v-col>
                                 <v-col>
-                                    <v-btn fab class="mt-5 white accent-4" name="add" :style="{left: '25%', top: '-30%', transform:'translateX(0%)'}">
-                                        <v-icon>mdi-plus-box-outline</v-icon>
-                                    </v-btn>
+                                    <add-desire></add-desire>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -127,11 +123,13 @@ import Desires from '@/components/Desires';
 import Description from '@/components/Description';
 import MainInfo from '@/components/MainInfo';
 import Reviews from '@/components/Reviews';
+import AddItem from '@/components/AddItem';
+import AddDesire from '@/components/AddDesire';
 
 export default {
     name: 'profile',
     components: {
-        Items, Desires, Description, MainInfo, Reviews
+        Items, Desires, Description, MainInfo, Reviews, AddItem, AddDesire
     }
 };
 </script>
