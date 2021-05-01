@@ -57,9 +57,7 @@
                                         <h1>Reviews</h1>
                                     </v-col>
                                     <v-col>
-                                        <v-btn fab class="mt-5 white accent-4" name="add">
-                                            <v-icon>mdi-plus-box-outline</v-icon>
-                                        </v-btn>
+                                        <add-review></add-review>
                                     </v-col>
                                 </v-row>
                                 <v-row>
@@ -94,11 +92,12 @@ import Items from '@/components/Items';
 import Desires from '@/components/Desires';
 import Description from '@/components/Description';
 import MainInfo from '@/components/MainInfo';
+import AddReview from '@/components/AddReview';
 
 export default {
     name: 'viewedProfile',
     components: {
-        Items, Desires, Description, MainInfo
+        Items, Desires, Description, MainInfo, AddReview
     }
 };
 </script>

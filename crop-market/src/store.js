@@ -95,22 +95,6 @@ export default new Vuex.Store({
             commit(setViewedUserId(userId));
             commit(setViewedUserType(type));
             router.push('/viewed-profile');
-        },
-        async AddReview({ rating, description }) {
-            axios
-                .post(
-                    'http://localhost:3000/api/addReview',
-                    {
-                        userId: this.state.viewedUserId,
-                        type: this.state.viewedUserType,
-                        name: this.state.user.name,
-                        rating: rating,
-                        description: description
-                    }
-                )
-                .catch(() => {
-                    alert('Error adding review');
-                });
         }
     },
     getters: {
