@@ -365,7 +365,7 @@ export default new Vuex.Store({
             Vue.$cookies.remove('type');
             state.type = null;
         },
-        async setViewedUser(state, viewedUserId) {
+        async setViewedUserId(state, viewedUserId) {
             Vue.$cookies.set('viewedUserId', viewedUserId);
             state.viewedUserId = Vue.$cookies.get('viewedUserId');
         },

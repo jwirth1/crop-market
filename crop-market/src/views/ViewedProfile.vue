@@ -13,7 +13,7 @@
                         <v-card>
                             <div class="profileInfo">
                                 <div>
-                                    <main-info viewed=true></main-info>
+                                    <main-info :viewed=true></main-info>
                                 </div>
                             </div>
                         </v-card>
@@ -21,7 +21,7 @@
                     <v-col cols="4">
                         <v-card>
                             <div class="description">
-                                <description viewed=true></description>
+                                <description :viewed=true></description>
                             </div>
                         </v-card>
                     </v-col>
@@ -30,22 +30,22 @@
                     <v-col cols="4">
                         <v-card>             
                             <div class="services">
-                                <v-rows>
+                                <v-row>
                                     <v-col>
-                                        <items viewed=true></items>
+                                        <items :viewed=true></items>
                                     </v-col>
-                                </v-rows>
+                                </v-row>
                             </div>
                         </v-card>
                     </v-col>
                     <v-col cols="4">
                         <v-card>
                             <div class="desires">
-                                <v-rows>
+                                <v-row>
                                     <v-col>
-                                        <desires viewed=true></desires>
+                                        <desires :viewed=true></desires>
                                     </v-col>
-                                </v-rows>
+                                </v-row>
                             </div>
                         </v-card>
                     </v-col>
@@ -62,12 +62,10 @@
                                 </v-row>
                                 <v-row>
                                     <v-col>
-                                        <reviews viewed=true></reviews>
+                                        <reviews :viewed=true></reviews>
                                     </v-col>
                                 </v-row>
                             </div>
-                            <v-rows>
-                            </v-rows>
                         </v-card>
                     </v-col>
                 </v-row>
@@ -93,11 +91,12 @@ import Desires from '@/components/Desires';
 import Description from '@/components/Description';
 import MainInfo from '@/components/MainInfo';
 import AddReview from '@/components/AddReview';
+import Reviews from '@/components/Reviews';
 
 export default {
     name: 'viewedProfile',
     components: {
-        Items, Desires, Description, MainInfo, AddReview
+        Items, Desires, Description, MainInfo, AddReview, Reviews
     }
 };
 </script>

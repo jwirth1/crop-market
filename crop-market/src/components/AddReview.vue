@@ -17,6 +17,13 @@
             <v-card-text>
                 <v-container>
                     <v-row>
+                        <v-col cols="12">
+                            <v-text-field
+                                label="Enter Name"
+                                v-model="name"
+                                required
+                            ></v-text-field>
+                        </v-col>
                         <v-col cols="9">
                             Rating:
                         </v-col>
@@ -61,7 +68,8 @@ export default {
             ratingChoices: [1, 2, 3, 4, 5],
             dialog: false,
             rating: null,
-            review: ''
+            review: '',
+            name: ''
         }
     },
     methods: {
@@ -73,14 +81,13 @@ export default {
                 alert('You must enter a review');
             }
             else {
-                this.dialog = false;
                 axios
                     .post(
                         'http://localhost:3000/api/addReview',
                         {
                             userId: this.$store.state.viewedUserId,
                             type: this.$store.state.viewedUserType,
-                            name: this.$store.state.user.name,
+                            name: this.name,
                             rating: this.rating,
                             description: this.review
                         }
@@ -91,6 +98,7 @@ export default {
                     .catch(() => {
                         alert('Error adding review');
                     });
+                this.dialog = false;
             }
         }
     }
