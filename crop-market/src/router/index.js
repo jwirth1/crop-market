@@ -54,6 +54,11 @@ const routes = [
         path: '/viewed-profile',
         name: 'Viewed-Profile',
         component:() => import('../views/ViewedProfile.vue')
+    },
+    {
+        path: '/search/:type/:param',
+        name: 'Search-Item',
+        component:() => import('../views/SearchItem.vue')
     }
 ];
 

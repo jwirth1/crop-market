@@ -14,7 +14,9 @@ export default new Vuex.Store({
         userId: Vue.$cookies.get('userId'),
         type: Vue.$cookies.get('type'),
         viewedUserId: Vue.$cookies.get('viewedUserId'),
-        viewedUserType: Vue.$cookies.get('viewedUserType')
+        viewedUserType: Vue.$cookies.get('viewedUserType'),
+        searchParam: null,
+        searchType: null
     },
     actions: {
         async LogIn({ commit }, { email, password }) {
@@ -92,9 +94,13 @@ export default new Vuex.Store({
                 });
         },
         async ViewUser({ commit }, { userId, type }) {
-            commit(setViewedUserId(userId));
-            commit(setViewedUserType(type));
+            commit('setViewedUserId', userId);
+            commit('setViewedUserType', type);
             router.push('/viewed-profile');
+        },
+        async SearchItem({ commit }, { searchParam, type }) {
+            commit('setSearchParam', searchParam);
+            commit('setSearchType', type);
         }
     },
     getters: {
@@ -372,6 +378,12 @@ export default new Vuex.Store({
             state.viewedUserId = null;
             Vue.$cookies.remove('viewedUserType');
             state.viewedUserType = null;
+        },
+        async setSearchParam(state, searchParam) {
+            state.searchParam = searchParam;
+        },
+        async setSearchType(state, type) {
+            state.searchType = type;
         }
     }
 });

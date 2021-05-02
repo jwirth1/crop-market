@@ -3,7 +3,7 @@
         <app-navigation></app-navigation>
 
         <v-content transition="slide-x-transition">
-            <router-view></router-view>
+            <router-view :key="$route.fullPath"></router-view>
         </v-content>
     </v-app>
 </template>
