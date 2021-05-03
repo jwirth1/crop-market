@@ -146,44 +146,6 @@ export default new Vuex.Store({
                 });
             return user;
         },
-        async getFarmers(location) {
-            let farmersList = [];
-            await axios
-                .get('http://localhost:3000/api/farmers', 
-                    {
-                        params: {
-                            location: location
-                        }
-                    }
-                )
-                .then((response) => {
-                    farmersList = response.data.response;
-                })
-                .catch(() => {
-                    alert('Error: No farmers available');
-                    return null;
-                });
-            return farmersList;
-        },
-        async getServiceProviders(location) {
-            let providersList = [];
-            await axios
-                .get('http://localhost:3000/api/service-providers',
-                    {
-                        params: {
-                            location: location
-                        }
-                    }
-                )
-                .then((response) => {
-                    providersList = response.data.response;
-                })
-                .catch(() => {
-                    alert('Error: No service providers available');
-                    return null;
-                });
-            return providersList;
-        },
         async getItems(state) {
             let itemsList = [];
             await axios
@@ -264,44 +226,6 @@ export default new Vuex.Store({
                 });
             return desiresList;
         },
-        async getCrops(crop) {
-            let cropsList = [];
-            await axios
-                .get('http://localhost:3000/api/findCrops',
-                    {
-                        params: {
-                            crop: crop
-                        }
-                    }
-                )
-                .then((response) => {
-                    cropsList = response.data.crops;
-                })
-                .catch(() => {
-                    alert('Error: no crops found');
-                    return null;
-                });
-            return cropsList;
-        },
-        async getServices(service) {
-            let servicesList = [];
-            await axios
-                .get('http://localhost:3000/api/findServices',
-                    {
-                        params: {
-                            service: service
-                        }
-                    }
-                )
-                .then((response) => {
-                    servicesList = response.data.services;
-                })
-                .catch(() => {
-                    alert('Error: no crops found');
-                    return null;
-                });
-            return servicesList;
-        },
         async getReviews(state) {
             let reviewList = [];
             await axios
@@ -342,7 +266,6 @@ export default new Vuex.Store({
                 });
             return reviewList;
         }
-
     },
     mutations: {
         async setUser(state, username) {

@@ -2,11 +2,35 @@
     <v-container fluid fill-height class="hello">
         <v-layout column>
             <v-row>
+                <v-col cols="4"></v-col>
+                <v-col cols="4">
+                    <v-text-field 
+                        single-line 
+                        solo 
+                        dense 
+                        label="Location" 
+                        v-model="location"
+                        append-icon="mdi-magnify"
+                        @click:append="Search"></v-text-field>
+                </v-col>
+                <v-col cols="4"></v-col>
+            </v-row>
+            <v-row>
                 <v-col cols="4" v-for="farmer in farmers" :key="farmer.name">
                     <v-card>
-                        <div>
-                             <h1>{{ farmer.name }}</h1>
-                        </div>
+                        <v-card-title>
+                             <span class="headline">{{ farmer.name }}</span>
+                        </v-card-title>
+                        <v-card-text>
+                            <h3>Location: {{ farmer.location }}</h3>
+                            <h3>Rating: {{ farmer.rating }}</h3>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn @click="ViewFarmer(farmer.farmer_id)">
+                                View Farmer
+                            </v-btn>
+                        </v-card-actions>
                     </v-card>
                 </v-col>
             </v-row>
@@ -15,16 +39,62 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
     name: 'Farmers',
     data () {
         return {
             farmers: null,
+            location: undefined
+        }
+    },
+    methods: {
+        async ViewFarmer(userId) {
+            this.$store.dispatch('ViewUser', {
+                userId: userId,
+                type: 'Farmer'
+            });
+        },
+        async Search() {
+            let farmersList;
+            if (this.location == '') {
+                this.location = undefined;
+            }
+            await axios
+                .get('http://localhost:3000/api/farmers', 
+                    {
+                        params: {
+                            location: this.location
+                        }
+                    }
+                )
+                .then((response) => {
+                    farmersList = response.data.response;
+                })
+                .catch(() => {
+                    return null;
+                });
+            this.farmers = farmersList;
         }
     },
     async created () {
-        const response = await this.$store.getters.getFarmers;
-        this.farmers = response;
+        let farmersList;
+        await axios
+            .get('http://localhost:3000/api/farmers', 
+                {
+                    params: {
+                        location: this.location
+                    }
+                }
+            )
+            .then((response) => {
+                farmersList = response.data.response;
+            })
+            .catch(() => {
+                return null;
+            });
+        this.farmers = farmersList;
     }
 }
 </script>
