@@ -29,24 +29,34 @@
             </router-link>
             <v-spacer></v-spacer>
             <span v-if="isLoggedIn">
-                <v-btn text class="hidden-sm-and-down" to="/friends">
-                    FRIENDS
-                </v-btn>
-                <v-btn text class="hidden-sm-and-down" to="/listings">
-                    LISTINGS
-                </v-btn>
-                <v-btn text class="hidden-sm-and-down" to="/farmers">
-                    FARMERS
-                </v-btn>
-                <v-btn text class="hidden-sm-and-down" to="/service-providers">
-                    SERVICE PROVIDERS
-                </v-btn>
-                <v-btn text class="hidden-sm-and-down" to="/profile">
-                    PROFILE
-                </v-btn>
-                <v-btn text class="hidden-sm-and-down" id="logout" to="/" @click="logout">
-                    LOG OUT
-                </v-btn>
+                <v-row>
+                    <v-col cols="2">
+                        <v-text-field single-line dense class="hidden-sm-and-down search" label="Search" v-model="searchParam"></v-text-field>
+                    </v-col>
+                    <v-col cols="2">
+                        <v-select class="hidden-sm-and-down search" :items="searchTypes" v-model="searchType"></v-select>
+                    </v-col>
+                    <v-col cols="8">
+                        <v-btn class="hidden-sm-and-down searchButton" fab @click="search">
+                            <v-icon>mdi-magnify</v-icon>
+                        </v-btn>
+                        <v-btn text class="hidden-sm-and-down" to="/listings">
+                            LISTINGS
+                        </v-btn>
+                        <v-btn text class="hidden-sm-and-down" to="/farmers">
+                            FARMERS
+                        </v-btn>
+                        <v-btn text class="hidden-sm-and-down" to="/service-providers">
+                            SERVICE PROVIDERS
+                        </v-btn>
+                        <v-btn text class="hidden-sm-and-down" to="/profile">
+                            PROFILE
+                        </v-btn>
+                        <v-btn text class="hidden-sm-and-down" id="logout" to="/" @click="logout">
+                            LOG OUT
+                        </v-btn>
+                    </v-col>
+                </v-row>
             </span>
             <span v-else>
                 <v-btn text class="hidden-sm-and-down" to="/log-in">
@@ -76,6 +86,18 @@ export default {
         async logout() {
             await this.$store.dispatch('LogOut');
             this.$router.push('/');
+        },
+        async search() {
+            await this.$store.dispatch('SearchItem', { 
+                searchParam: this.searchParam, 
+                type: this.searchType 
+            });
+            if (this.searchParam != '') {
+                this.$router.push({ name: 'Search-Item', params: { type: this.searchType, param: this.searchParam }});
+            }
+            else {
+                this.$router.push({ name: 'Search-Item', params: { type: this.searchType, param: 'all' }});
+            }
         }
     },
     data() {
@@ -86,7 +108,10 @@ export default {
                 { title: 'Menu' },
                 { title: 'Log In' },
                 { title: 'Sign Up' }
-            ]
+            ],
+            searchTypes: ['Crop', 'Service'],
+            searchParam: '',
+            searchType: 'Crop'
         };
     }
 };
@@ -107,5 +132,12 @@ export default {
 }
 #logout {
     background-color: coral;
+}
+.searchButton {
+    scale: 60%;
+}
+.search {
+    position: relative;
+    top: 25%;
 }
 </style>

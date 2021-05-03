@@ -28,6 +28,9 @@ const serviceProviderSchema = new mongoose.Schema({
     },
     contact: {
         type: String
+    },
+    rating: {
+        type: Number
     }
 });
 

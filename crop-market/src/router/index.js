@@ -38,7 +38,7 @@ const routes = [
     {
         path: '/listings',
         name: 'Listings',
-        component:() => import('../views/TestItems.vue')
+        component:() => import('../views/Listings.vue')
     },
     {
         path: '/farmers',
@@ -49,22 +49,17 @@ const routes = [
         path: '/service-providers',
         name: 'Service-Providers',
         component:() => import('../views/ServiceProviders.vue')
-    },/*
-    {
-        path: '/dashboard',
-        name: 'Dashboard',
-        component: () => import('../views/Dashboard.vue')
     },
     {
-        path: '/configure',
-        name: 'Configure',
-        component: () => import('../views/Configure.vue')
+        path: '/viewed-profile',
+        name: 'Viewed-Profile',
+        component:() => import('../views/ViewedProfile.vue')
     },
     {
-        path: '/enter-expenses',
-        name: 'Enter-Expenses',
-        component: () => import('../views/EnterExpenses.vue')
-    }*/
+        path: '/search/:type/:param',
+        name: 'Search-Item',
+        component:() => import('../views/SearchItem.vue')
+    }
 ];
 
 const router = new VueRouter({

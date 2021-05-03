@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 
 const port = process.env.port || 3000;
 const app = express();
@@ -14,11 +14,13 @@ const farmerSchema = require("./schema/farmerSchema.js");
 const serviceProviderSchema = require("./schema/serviceProviderSchema.js");
 const serviceSchema = require("./schema/serviceSchema.js");
 const cropSchema = require("./schema/cropSchema.js");
+const reviewSchema = require("./schema/reviewSchema.js");
 const User = mongoose.model('user', userSchema, 'user');
 const Farmer = mongoose.model('farmer', farmerSchema, 'farmer');
 const ServiceProvider = mongoose.model('service_provider', serviceProviderSchema, 'service_provider');
 const Service = mongoose.model('service', serviceSchema, 'service');
 const Crop = mongoose.model('crop', cropSchema, 'crop');
+const Review = mongoose.model('review', reviewSchema, 'review');
 
 const connectionString = 'mongodb+srv://cropAdmin:theCropMarket@cluster0.gjru1.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 
@@ -103,8 +105,14 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.get("/api/farmers", async (req, res) => {
+  let locationParam = req.query.location;
   let farmers = await connector.then(async () => {
-    return await Farmer.find();
+    if (locationParam === undefined) {
+      return await Farmer.find();
+    }
+    else {
+      return await Farmer.find({location: {$regex: locationParam, $options: 'i'}});
+    }
   });
   if (!farmers) {
     res.status(400).json({ response: 'No farmers found' });
@@ -115,8 +123,14 @@ app.get("/api/farmers", async (req, res) => {
 });
 
 app.get("/api/service-providers", async (req, res) => {
+  let locationParam = req.query.location;
   let serviceProviders = await connector.then(async () => {
-    return await ServiceProvider.find();
+    if (locationParam === undefined) {
+      return await ServiceProvider.find();
+    }
+    else {
+      return await ServiceProvider.find({location: {$regex: locationParam, $options: 'i'}});
+    }
   });
   if (!serviceProviders) {
     res.status(400).json({ response: 'No service providers found' });
@@ -302,7 +316,8 @@ app.post("/api/addItem", async (req, res) => {
     newItem = await connector.then(async () => {
       return new Service({
         service_id: itemId,
-        name: item
+        name: item,
+        user_id: userId
       }).save();
     });
     if (!newItem) {
@@ -327,7 +342,8 @@ app.post("/api/addItem", async (req, res) => {
     newItem = await connector.then(async () => {
       return new Crop({
         crop_id: itemId,
-        name: item
+        name: item,
+        user_id: userId
       }).save();
     });
     if (!newItem) {
@@ -364,6 +380,131 @@ app.get("/api/getUser", async (req, res) => {
     res.status(200).json({
       response: "success",
       user: user
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
+});
+
+app.get("/api/getItems", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user, items;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (user) {
+      items = (await Service.find().where('_id').in(user.services));
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (user) {
+      items = (await Crop.find().where('_id').in(user.crops));
+    }
+  }
+
+  if (user) {
+    res.status(200).json({
+      items: items
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
+});
+
+app.post("/api/addReview", async (req, res) => {
+  let { userId, type, name, rating, description } = req.body;
+  let user, newReview, allReviews;
+  let reviewId = mongoose.Types.ObjectId();
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (!user) {
+      res.status(400).json({
+        response: "user not found"
+      });
+    }
+  }
+
+  newReview = await connector.then(async () => {
+    return new Review({
+      review_id: reviewId,
+      name: name, 
+      rating: rating,
+      description: description
+    }).save();
+  });
+  if (!newReview) {
+    res.status(400).json({
+      response: "error creating new review"
+    });
+  }
+  allReviews = user.reviews;
+  allReviews.push(newReview);
+  user.reviews = allReviews;
+  if (user.reviews.length == 1) {
+    user.rating = rating;
+  }
+  else {
+    let totalRating = 0;
+    for (let i = 0; i < user.reviews.length; i++) {
+      thisRating = (await Review.find().where('_id').in(user.reviews[i]));
+      totalRating += thisRating[0].rating;
+    }
+    totalRating = (totalRating / user.reviews.length).toFixed(2);
+    user.rating = totalRating;
+  }
+  await user.save();
+  res.status(200).json({
+    response: "success"
+  });
+});
+
+app.get("/api/getReviews", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user, reviews;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+    if (user) {
+      reviews = (await Review.find().where('_id').in(user.reviews));
+    }
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+    if (user) {
+      reviews = (await Review.find().where('_id').in(user.reviews));
+    }
+  }
+
+  if (user) {
+    res.status(200).json({
+      reviews: reviews
     });
   }
   else {
@@ -483,6 +624,72 @@ app.post("/api/removeDesire", async (req, res) => {
   res.status(200).json({
     response: "success"
   });
+});
+
+app.get("/api/getDesires", async (req, res) => {
+  let userId = req.query.userId;
+  let type = req.query.type;
+  let user, desires;
+  if (type == "Service Provider") {
+    user = await connector.then(async () => {
+      return await ServiceProvider.findOne({ provider_id : userId });
+    });
+  }
+  else {
+    user = await connector.then(async () => {
+      return await Farmer.findOne({ farmer_id : userId });
+    });
+  }
+
+  if (user) {
+    desires = user.desires;
+    res.status(200).json({
+      desires: desires
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "user not found"
+    });
+  }
+});
+
+app.get("/api/findCrops", async (req, res) => {
+  let searchQuery = req.query.crop;
+  let crops;
+  crops = await connector.then(async () => {
+    return await Crop.find({name: {$regex: searchQuery, $options: 'i'}});
+  });
+
+  if (crops) {
+    res.status(200).json({
+      crops: crops
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "no crops found"
+    });
+  }
+});
+
+app.get("/api/findServices", async (req, res) => {
+  let searchQuery = req.query.service;
+  let services;
+  services = await connector.then(async () => {
+    return await Service.find({name: {$regex: searchQuery, $options: 'i'}});
+  });
+
+  if (services) {
+    res.status(200).json({
+      services: services
+    });
+  }
+  else {
+    res.status(400).json({
+      response: "no services found"
+    });
+  }
 });
 
 app.listen(port, () => {

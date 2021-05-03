@@ -1,9 +1,9 @@
 <template>
     <v-container fluid>
         <div>
-            <ul id="items-list">
-                <li v-for="item in items" :key="item.name">
-                    {{ item.name }}
+            <ul id="desires-list">
+                <li v-for="desire in desires" :key="desire">
+                    {{ desire }}
                 </li>
             </ul>
         </div>
@@ -12,7 +12,7 @@
 
 <script>
 export default {
-    name: 'Items',
+    name: 'Desires',
     props: {
         viewed: {
             type: Boolean,
@@ -21,17 +21,17 @@ export default {
     },
     data () {
         return {
-            items: null
+            desires: null
         }
     },
     async created () {
         if (this.viewed) {
-            const response = await this.$store.getters.getViewedItems;
-            this.items = response;
+            const response = await this.$store.getters.getViewedDesires;
+            this.desires = response;
         }
         else {
-            const response = await this.$store.getters.getItems;
-            this.items = response;
+            const response = await this.$store.getters.getDesires;
+            this.desires = response;
         }
     }
 }
