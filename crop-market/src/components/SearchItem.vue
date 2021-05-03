@@ -7,6 +7,10 @@
                         <v-card-title>
                             <span class="headline">{{ item.name }}</span>
                         </v-card-title>
+                        <v-card-text>
+                            <h3>Lister: {{ item.listerName }}</h3>
+                            <h3>Rating: {{ item.rating }}</h3>
+                        </v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn @click="ViewLister(item.user_id)">
@@ -22,6 +26,7 @@
 
 <script>
 import axios from 'axios';
+import Vue from 'vue';
 
 export default {
     name: 'SearchItem',
@@ -29,7 +34,7 @@ export default {
         return {
             searchQuery: this.$store.state.searchParam,
             type: this.$store.state.searchType,
-            items: null,
+            items: null
         }
     },
     methods: {
@@ -59,6 +64,26 @@ export default {
                     return null;
                 });
             this.items = itemList;
+            for (let i = 0; i < itemList.length; i++) {
+                await axios
+                    .get('http://localhost:3000/api/getUser',
+                        {
+                            params: {
+                                userId: itemList[i].user_id,
+                                type: 'Farmer'
+                            }
+                        }
+                    )
+                    .then((response) => {
+                        Vue.set(this.items[i], 'listerName', response.data.user.name);
+                        if (response.data.user.rating != undefined) {
+                            Vue.set(this.items[i], 'rating', response.data.user.rating);
+                        }
+                        else {
+                            Vue.set(this.items[i], 'rating', 'No reviews yet');
+                        }
+                    });
+            }
         }
         else {
             await axios
@@ -77,6 +102,26 @@ export default {
                     return null;
                 });
             this.items = itemList;
+            for (let i = 0; i < itemList.length; i++) {
+                await axios
+                    .get('http://localhost:3000/api/getUser',
+                        {
+                            params: {
+                                userId: itemList[i].user_id,
+                                type: 'Service Provider'
+                            }
+                        }
+                    )
+                    .then((response) => {
+                        Vue.set(this.items[i], 'listerName', response.data.user.name);
+                        if (response.data.user.rating != undefined) {
+                            Vue.set(this.items[i], 'rating', response.data.user.rating);
+                        }
+                        else {
+                            Vue.set(this.items[i], 'rating', 'No reviews yet');
+                        }
+                    });
+            }
         }
     }
 }
