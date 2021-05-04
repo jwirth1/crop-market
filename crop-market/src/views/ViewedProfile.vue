@@ -5,7 +5,9 @@
                     <v-col cols="3">
                         <v-card>
                             <div class="profilePic">
-                                <h1>Profile Pic</h1>
+                                <v-card-title>
+                                    <span class="headline">Profile Pic</span>
+                                </v-card-title>
                             </div>
                         </v-card>
                     </v-col>
@@ -19,18 +21,16 @@
                         </v-card>
                     </v-col>
                     <v-col cols="4">
-                        <v-card>
                             <div class="description">
                                 <description :viewed=true></description>
                             </div>
-                        </v-card>
                     </v-col>
                 </v-row>
                 <v-row>
                     <v-col cols="4">
                         <v-card>             
                             <v-card-title>
-                                <span class="headline">Services</span>
+                                <span class="headline">Listings</span>
                             </v-card-title>
                             <div class="services">
                                 <v-row>
@@ -80,6 +80,10 @@
 
 .edit-profile{
     color: white;
+}
+
+.profileInfo {
+    text-align: center;
 }
 
 .profile {

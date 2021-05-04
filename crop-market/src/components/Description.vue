@@ -1,8 +1,14 @@
 <template>
     <v-container fluid>
         <div>
-            <h1>Description</h1>
-            {{ description }}
+            <v-card>
+                <v-card-title>
+                    <span class="headline">Description</span>
+                </v-card-title>
+                <v-card-text>
+                    <h3>{{ description }}</h3>
+                </v-card-text>
+            </v-card>
         </div>
     </v-container>
 </template>
