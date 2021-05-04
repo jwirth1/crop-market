@@ -6,7 +6,9 @@
                     <v-flex>
                         <v-card>
                             <div class="profilePicandEdit">
-                                <h1>Profile Pic</h1>
+                                <v-card-title>
+                                    <span class="headline">Profile Pic</span>
+                                </v-card-title>
                             </div>
                             <update-profile></update-profile>
                         </v-card>
@@ -22,21 +24,22 @@
                     </v-card>
                 </v-col>
                 <v-col cols="4">
-                    <v-card>
-                        <div class="description">
-                            <description></description>
-                        </div>
-                    </v-card>
+                    <div class="description">
+                        <description></description>
+                    </div>
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    <v-card>             
+                    <v-card>
                         <div class="services">
                             <v-row>
-                                <v-col class = "listANDdesirebox">
-                                    <h1>Listings</h1>
+                                <v-col>
+                                    <v-card-title>
+                                        <span class="headline">Listings</span>
+                                    </v-card-title>
                                 </v-col>
+                                <v-spacer></v-spacer>
                                 <v-col>
                                     <add-item></add-item>
                                 </v-col>
@@ -53,9 +56,13 @@
                     <v-card>
                         <div class="desires">
                             <v-row>
-                                <v-col class = "listANDdesirebox">
-                                    <h1>Desires</h1>
-                                </v-col>
+                                <v-card-title>
+                                    <v-col>
+                                        <span class="headline">Desires</span>
+                                    </v-col>
+                                </v-card-title>
+                                <v-spacer></v-spacer>
+                                <v-spacer></v-spacer>
                                 <v-col>
                                     <add-desire></add-desire>
                                 </v-col>
@@ -72,8 +79,11 @@
                     <v-card>
                         <div class="Reviews">
                             <v-row>
-                                <v-col class = "listANDdesirebox">
-                                    <h1>Reviews</h1>
+                                <v-col>
+                                    <v-card-title>
+                                        <span class="headline">Reviews</span>
+                                        <v-spacer></v-spacer>
+                                    </v-card-title>
                                 </v-col>
                             </v-row>
                             <v-row>
@@ -90,8 +100,7 @@
 </template>
 
 <style scoped>
-
-.edit-profile{
+.edit-profile {
     color: white;
 }
 
@@ -112,7 +121,6 @@
     text-align: center;
     text-decoration: underline;
 }
-
 </style>
 
 <script>
@@ -128,7 +136,14 @@ import UpdateProfile from '@/components/UpdateProfile';
 export default {
     name: 'profile',
     components: {
-        Items, Desires, Description, MainInfo, Reviews, AddItem, AddDesire, UpdateProfile
-    }
+        Items,
+        Desires,
+        Description,
+        MainInfo,
+        Reviews,
+        AddItem,
+        AddDesire,
+        UpdateProfile,
+    },
 };
 </script>
