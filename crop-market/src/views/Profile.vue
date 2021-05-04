@@ -54,19 +54,18 @@
                 </v-col>
                 <v-col cols="4">
                     <v-card>
-                        <div class="desires">
-                            <v-row>
+                        <v-row>
+                            <v-col>
                                 <v-card-title>
-                                    <v-col>
-                                        <span class="headline">Desires</span>
-                                    </v-col>
+                                    <span class="headline">Desires</span>
                                 </v-card-title>
-                                <v-spacer></v-spacer>
-                                <v-spacer></v-spacer>
-                                <v-col>
-                                    <add-desire></add-desire>
-                                </v-col>
-                            </v-row>
+                            </v-col>
+                            <v-spacer></v-spacer>
+                            <v-col>
+                                <add-desire></add-desire>
+                            </v-col>
+                        </v-row>
+                        <div class="desires">
                             <v-row>
                                 <v-col>
                                     <desires></desires>
@@ -82,7 +81,6 @@
                                 <v-col>
                                     <v-card-title>
                                         <span class="headline">Reviews</span>
-                                        <v-spacer></v-spacer>
                                     </v-card-title>
                                 </v-col>
                             </v-row>

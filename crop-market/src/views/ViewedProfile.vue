@@ -8,7 +8,6 @@
                                 <v-card-title>
                                     <span class="headline">Profile Pic</span>
                                 </v-card-title>
-                                <h1>Profile Pic</h1>
                             </div>
                         </v-card>
                     </v-col>
