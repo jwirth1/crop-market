@@ -65,7 +65,7 @@ export default {
                 .get('http://localhost:3000/api/service-providers',
                     {
                         params: {
-                            location: location
+                            location: this.location
                         }
                     }
                 )
@@ -84,7 +84,7 @@ export default {
             .get('http://localhost:3000/api/service-providers',
                 {
                     params: {
-                        location: location
+                        location: this.location
                     }
                 }
             )
