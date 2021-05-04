@@ -30,7 +30,7 @@
                         <v-col cols="3">
                             <v-select 
                                 :items="ratingChoices" 
-                                label="0-5"
+                                label="1-5"
                                 v-model="rating"
                                 required
                             ></v-select>

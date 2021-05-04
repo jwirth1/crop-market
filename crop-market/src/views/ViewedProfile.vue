@@ -29,6 +29,9 @@
                 <v-row>
                     <v-col cols="4">
                         <v-card>             
+                            <v-card-title>
+                                <span class="headline">Services</span>
+                            </v-card-title>
                             <div class="services">
                                 <v-row>
                                     <v-col>
@@ -40,6 +43,9 @@
                     </v-col>
                     <v-col cols="4">
                         <v-card>
+                            <v-card-title>
+                                <span class="headline">Desires</span>
+                            </v-card-title>
                             <div class="desires">
                                 <v-row>
                                     <v-col>
@@ -51,15 +57,12 @@
                     </v-col>
                     <v-col cols="4">
                         <v-card>
+                            <v-card-title>
+                                <span class="headline">Reviews</span>
+                                <v-spacer></v-spacer>
+                                <add-review></add-review>
+                            </v-card-title>
                             <div class="Reviews">
-                                <v-row>
-                                    <v-col class = "listANDdesirebox">
-                                        <h1>Reviews</h1>
-                                    </v-col>
-                                    <v-col>
-                                        <add-review></add-review>
-                                    </v-col>
-                                </v-row>
                                 <v-row>
                                     <v-col>
                                         <reviews :viewed=true></reviews>
