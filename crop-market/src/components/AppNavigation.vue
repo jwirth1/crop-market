@@ -40,9 +40,6 @@
                         <v-btn class="hidden-sm-and-down searchButton" fab @click="search">
                             <v-icon>mdi-magnify</v-icon>
                         </v-btn>
-                        <v-btn text class="hidden-sm-and-down" to="/listings">
-                            LISTINGS
-                        </v-btn>
                         <v-btn text class="hidden-sm-and-down" to="/farmers">
                             FARMERS
                         </v-btn>

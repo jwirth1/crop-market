@@ -1,7 +1,6 @@
 <template>
     <v-container fluid>
         <div>
-            <h1>Main Info</h1>
             <h1>{{ name }}</h1>
             <h2>{{ location }}</h2>
             <h2>Rating: {{ rating }}</h2>
