@@ -2,7 +2,7 @@
     <v-container fluid fill-height class="profile">
         <v-layout column>
             <v-row>
-                <v-col cols="3">
+                <v-col cols="4">
                     <v-flex>
                         <v-card>
                             <div class="profilePicandEdit">
@@ -14,7 +14,7 @@
                         </v-card>
                     </v-flex>
                 </v-col>
-                <v-col cols="5">
+                <v-col cols="4">
                     <v-card>
                         <div class="profileInfo">
                             <div>
